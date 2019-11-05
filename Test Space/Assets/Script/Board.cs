@@ -10,10 +10,17 @@ public class Board : MonoBehaviour
     private Block[,] blocks;
     private GridLayoutGroup layout;
 
+    private int width;
+    private int height;
+
+    private List<(int, int)> adjacents;
+
     private void Awake()
     {
+        adjacents = new List<(int, int)>();
         layout = GetComponent<GridLayoutGroup>();
-        blocks = new Block[layout.constraintCount, layout.constraintCount];
+        width = height = layout.constraintCount;
+        blocks = new Block[width, height];
 
         for (int row = 0; row < layout.constraintCount; row++)
         {
@@ -26,8 +33,55 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void GetChainingAdjacentSameColor(int startCol, int startRow)
+    public void GetChainingAdjacentSameColor(int startCol, int startRow, Block.Color color)
     {
-        Debug.Log("Tap at " + startCol + " : " + startRow);
+        adjacents.Clear();
+        AddToAdjacent(color, startRow, startCol);
+        GetAdjacent(startCol, startRow, color);
+
+        Debug.Log("Total adjacent count : " + adjacents.Count);
+    }
+
+    private void GetAdjacent(int startCol, int startRow, Block.Color color)
+    {
+        int nextRow;
+        int nextCol;
+
+        //Check top row +1
+        nextRow = startRow + 1;
+        nextCol = startCol;
+
+        if (nextRow < height && blocks[nextCol, nextRow].CurrentColor == color)
+            AddToAdjacent(color, nextRow, nextCol);
+
+        //Check down row -1
+        nextRow = startRow - 1;
+        nextCol = startCol;
+
+        if (nextRow >= 0 && blocks[startCol, nextRow].CurrentColor == color)
+            AddToAdjacent(color, nextRow, nextCol);
+
+        //Check right col +1
+        nextRow = startRow;
+        nextCol = startCol + 1;
+
+        if (nextCol < width && blocks[nextCol, nextRow].CurrentColor == color)
+            AddToAdjacent(color, nextRow, nextCol);
+
+        //Check left col -1
+        nextRow = startRow;
+        nextCol = startCol - 1;
+
+        if (nextCol >= 0 && blocks[nextCol, startRow].CurrentColor == color)
+            AddToAdjacent(color, nextRow, nextCol);
+    }
+
+    private void AddToAdjacent(Block.Color color, int nextRow, int nextCol)
+    {
+        if (!adjacents.Contains((nextCol, nextRow)))
+        {
+            adjacents.Add((nextCol, nextRow));
+            GetAdjacent(nextCol, nextRow, color);
+        }
     }
 }

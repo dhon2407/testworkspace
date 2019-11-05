@@ -5,21 +5,22 @@ using UnityEngine.UI;
 public class Block : MonoBehaviour
 {
     [HideInInspector] public TapPosition onTap;
-    private Color color;
     private Image image;
     private int col;
     private int row;
 
+    public Color CurrentColor { get; private set; }
+    
     private void Awake()
     {
         onTap = new TapPosition();
         image = GetComponent<Image>();
-        color = Random.Range(0, 100) > 50 ? Color.Blue : Color.Red;
+        CurrentColor = Random.Range(0, 100) > 50 ? Color.Blue : Color.Red;
     }
 
     private void Start()
     {
-        image.color = color == Color.Blue ? UnityEngine.Color.blue : UnityEngine.Color.red;
+        image.color = CurrentColor == Color.Blue ? UnityEngine.Color.blue : UnityEngine.Color.red;
     }
 
     public void SetPosition(int col, int row)
@@ -30,7 +31,7 @@ public class Block : MonoBehaviour
 
     public void Clicked()
     {
-        onTap.Invoke(col, row);
+        onTap.Invoke(col, row, CurrentColor);
     }
 
     public enum Color
@@ -39,5 +40,5 @@ public class Block : MonoBehaviour
         Blue
     }
 
-    public class TapPosition : UnityEvent<int, int> { };
+    public class TapPosition : UnityEvent<int, int, Color> { };
 }
