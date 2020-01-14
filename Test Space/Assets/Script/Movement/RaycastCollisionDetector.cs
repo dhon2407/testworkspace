@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
+using Helpers;
 
 namespace Movement
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class RaycastCollisionDetector : MonoBehaviour
+    public class RaycastCollisionDetector : MonoBehaviour, ICollisionDetector
     {
-        [SerializeField] private float raySpacing;
+        [SerializeField] private float raySpacing = 0.05f;
         
         private readonly Vector2 Left = Vector2.left;
         private readonly Vector2 Right = Vector2.right;
@@ -24,19 +25,13 @@ namespace Movement
         private float _horizontalRaySpacing;
         private float _verticalRaySpacing;
         
-        private Bounds InnerBounds => _collider.bounds.Expand (SkinWidth * -2);
+        private Bounds InnerBounds => _collider.bounds.SelfExpand(SkinWidth * -2);
         
-        //TEST
-        private void Update()
-        {
-            FilterCollisions(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
-        }
-
-        public CollisionData FilterCollisions(Vector2 velocity)
+        public List<CollisionData> GetCollisions(Vector2 velocity)
         {
             CalculateRaySpacing();
             UpdateRaycastOrigins();
-            CollisionData data = new CollisionData();
+            var data = new List<CollisionData>();
 
             if (Mathf.Abs(velocity.x) > 0)
                 CheckHorizontalCollisions(velocity);
@@ -47,7 +42,7 @@ namespace Movement
             return data;
         }
 
-        private void CheckVerticalCollisions(Vector2 velocity)
+        public void CheckVerticalCollisions(Vector2 velocity)
         {
             Vector2 direction = (Math.Sign(velocity.y) > 0) ? Up : Down;
             Vector2 rayOrigin = (direction == Up) ? _rayOrigins.topLeft : _rayOrigins.bottomLeft;
@@ -59,7 +54,7 @@ namespace Movement
                     Color.red);
         }
 
-        private void CheckHorizontalCollisions(Vector2 velocity)
+        public void CheckHorizontalCollisions(Vector2 velocity)
         {
             Vector2 direction = (Math.Sign(velocity.x) > 0) ? Right : Left;
             Vector2 rayOrigin = (direction == Right) ? _rayOrigins.bottomRight : _rayOrigins.bottomLeft;
@@ -108,13 +103,5 @@ namespace Movement
             public Vector2 bottomRight;
         }
         
-    }
-
-    public struct CollisionData
-    {
-        public bool collidedUp;
-        public bool collidedLeft;
-        public bool collidedRight;
-        public bool collidedDown;
     }
 }
