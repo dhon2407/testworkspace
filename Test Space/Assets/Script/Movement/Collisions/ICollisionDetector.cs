@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Movement
+namespace Movement.Collisions
 {
     public interface ICollisionDetector
     {

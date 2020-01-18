@@ -7,7 +7,7 @@ namespace Helpers
         public static Bounds SelfExpand(this Bounds bounds, float amount)
         {
             var expandedBounds = bounds;
-            bounds.Expand(amount);
+            expandedBounds.Expand(amount);
 
             return expandedBounds;
         }

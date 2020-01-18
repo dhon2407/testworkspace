@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\jessi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\jessi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Test Space.-406104557.00" t="ExcludeRecursive" />
-    <e p="C:\Users\jessi\Unity Project\GitHub\testworkspace\Test Space" t="IncludeRecursive">
+    <e p="C:\Users\Dan\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Dan\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Test Space.579622212.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Dan\Unity Projects\testworkspace\Test Space" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Script" t="Include">
+          <e p="Actions" t="Include">
+            <e p="Action.cs" t="Include" />
+            <e p="ActionCode.cs" t="Include" />
+            <e p="IAction.cs" t="Include" />
+            <e p="Jump.cs" t="Include" />
+          </e>
           <e p="Block.cs" t="Include" />
           <e p="Board.cs" t="Include" />
           <e p="Helpers" t="Include">
             <e p="Collider2DExtensions.cs" t="Include" />
           </e>
           <e p="Movement" t="Include">
-            <e p="CollisionData.cs" t="Include" />
-            <e p="ICollisionDetector.cs" t="Include" />
+            <e p="BasicGravity.cs" t="Include" />
+            <e p="Collisions" t="Include">
+              <e p="CollisionData.cs" t="Include" />
+              <e p="ICollisionDetector.cs" t="Include" />
+              <e p="RaycastCollisionDetector.cs" t="Include" />
+            </e>
+            <e p="IMovementController.cs" t="Include" />
             <e p="MovementController.cs" t="Include" />
-            <e p="RaycastCollisionDetector.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="ICharacter.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
           </e>
         </e>
       </e>
