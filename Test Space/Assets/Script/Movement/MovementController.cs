@@ -6,8 +6,6 @@ namespace Movement
 {
     public class MovementController : MonoBehaviour, IMovementController
     {
-        [SerializeField] private int moveSpeed = 10;
-
         private const CollisionDirection Left = CollisionDirection.Left;
         private const CollisionDirection Right = CollisionDirection.Right;
         private const CollisionDirection Up = CollisionDirection.Up;
@@ -22,7 +20,7 @@ namespace Movement
         }
 
         public Vector2 Velocity { get; private set; }
-        public List<CollisionData> Collisions { get; private set; }
+        public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
 
         private void FixedUpdate()
         {
@@ -31,7 +29,7 @@ namespace Movement
             
             if (Velocity == Vector2.zero) return;
             
-            Velocity = FilterCollisions(Velocity * (moveSpeed * Time.deltaTime));
+            Velocity = FilterCollisions(Velocity);
             transform.Translate(Velocity);
             
             Velocity = Vector2.zero;

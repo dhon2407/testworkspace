@@ -3,7 +3,7 @@
 namespace Movement
 {
     [AddComponentMenu("Movement/Default Gravity")]
-    public class BasicGravity : MonoBehaviour, IMovementModifier
+    public class BasicGravity : MonoBehaviour, IMovementModifier, IGravity
     {
         [SerializeField] private float gravity = 0;
         
@@ -14,5 +14,7 @@ namespace Movement
 
             return modifiedVelocity;
         }
+
+        public float Value => gravity;
     }
 }
