@@ -6,7 +6,7 @@ using Movement.Collisions;
 using UnityEngine;
 using Action = System.Action;
 
-namespace Player
+namespace PlayerDan
 {
     public class PlayerController : MonoBehaviour
     {

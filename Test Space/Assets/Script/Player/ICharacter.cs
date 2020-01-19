@@ -1,4 +1,4 @@
-﻿namespace Player
+﻿namespace PlayerDan
 {
     public interface ICharacter
     {
