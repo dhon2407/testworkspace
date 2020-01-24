@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Movement.Collisions;
+using PlayerDan;
 using UnityEngine;
 
 namespace Movement
@@ -17,12 +18,14 @@ namespace Movement
         public void Move(Vector2 velocity)
         {
             Velocity += velocity;
+            UpdateCollisions();
         }
 
         public Vector2 Velocity { get; private set; }
         public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
+        public ICharacter Character { get; set; }
 
-        private void FixedUpdate()
+        private void UpdateCollisions()
         {
             foreach (var movementModifier in _movementModifiers)
                 Velocity = movementModifier.Apply(Velocity);

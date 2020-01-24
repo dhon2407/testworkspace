@@ -4,6 +4,7 @@ namespace Actions
 {
     public interface IAction
     {
-        void Execute(ICharacter character);
+        void Execute(ICharacterController characterController);
+        void Cancel(ICharacterController characterController);
     }
 }
