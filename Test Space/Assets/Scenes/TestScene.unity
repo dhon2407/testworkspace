@@ -2687,7 +2687,6 @@ GameObject:
   - component: {fileID: 1109324994}
   - component: {fileID: 1109324993}
   - component: {fileID: 1109324995}
-  - component: {fileID: 1109324996}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -2707,10 +2706,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96288c485f1a4e4c81f6a045a92b346c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
   inputActions:
   - code: 32
-    characterAction: {fileID: 1109324996}
+    characterAction: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
 --- !u!4 &1109324994
 Transform:
   m_ObjectHideFlags: 0
@@ -2739,6 +2737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: Hamburger
+  moveSpeed: 10
   maxFreshness: 100
   maxTemp: 100
   maxBacteria: 100
@@ -2747,22 +2746,7 @@ MonoBehaviour:
   currentBacteria: 0
   bacteriaGainSpeed: 8
   freshnessDrain: 5
-  tempRegen: 0.5
---- !u!114 &1109324996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109324992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7e3e8a84add49c0a797bb329ed9d1ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxJumpHeight: 5
-  minJumpHeight: 0.5
-  timeToJumpApex: 0.4
+  tempRegen: 1.2
 --- !u!1 &1177809170
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ namespace PlayerDan
 {
     public class PlayerController : MonoBehaviour, ICharacterController
     {
-        [SerializeField] private int moveSpeed = 10;        
         [SerializeField] private List<AvailableAction> inputActions = null;
             
         private const float AccelerationTimeAirborne = .2f;
@@ -59,10 +58,8 @@ namespace PlayerDan
 
         private void CalculateVelocity()
         {
-            float targetVelocityX = Input.GetAxisRaw("Horizontal") * (moveSpeed / _reducer);
+            float targetVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
 
-            targetVelocityX *= _player.SpeedMultiplier;
-            
             _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing,
                 OnGround ? AccelerationTimeGrounded : AccelerationTimeAirborne);
             _inputVelocity.y += Gravity * Time.deltaTime;

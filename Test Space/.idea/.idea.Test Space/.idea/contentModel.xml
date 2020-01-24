@@ -11,6 +11,7 @@
             <e p="CharacterAction.cs" t="Include" />
             <e p="IAction.cs" t="Include" />
             <e p="Jump.cs" t="Include" />
+            <e p="Run.cs" t="Include" />
           </e>
           <e p="Block.cs" t="Include" />
           <e p="Board.cs" t="Include" />
