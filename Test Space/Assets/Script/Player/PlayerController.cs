@@ -15,14 +15,14 @@ namespace PlayerDan
         
         private IMovementController _moveController;
         private ICharacter _player;
-        private Vector2 _inputVelocity;
+        private Vector2 _velocity;
 
         private float _velocityXSmoothing;
 
         private readonly float _reducer = 100f;
 
         public ICharacter Character => _player;
-        public Vector2 CurrentVelocity => _inputVelocity;
+        public Vector2 CurrentVelocity => _velocity;
         
         public float Gravity { get; set; } = -50f;
 
@@ -32,37 +32,38 @@ namespace PlayerDan
         
         public void UpdateVelocity(Vector2 velocity)
         {
-            _inputVelocity = velocity;
+            _velocity = velocity;
         }
 
         private void Update()
         {
-            foreach (var input in inputActions)
-            {
-                if (Input.GetKeyDown(input.code))
-                    input.characterAction.Execute(this);
-                if (Input.GetKeyUp(input.code))
-                    input.characterAction.Cancel(this);
-            }
+            foreach (var availableAction in inputActions)
+                availableAction.CheckInputs(this);
+            
+            UpdateInputVelocity();
         }
 
         private void FixedUpdate()
         {
-            CalculateVelocity();
+            ApplyGravity();
 
-            _moveController.Move(_inputVelocity);
+            _moveController.Move(_velocity);
 
             if (OnGround || OnOverHeadCollision)
-                _inputVelocity.y = 0;
+                _velocity.y = 0;
         }
 
-        private void CalculateVelocity()
+        private void ApplyGravity()
+        {
+            _velocity.y += Gravity * Time.deltaTime;
+        }
+
+        private void UpdateInputVelocity()
         {
             float targetVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
 
-            _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing,
+            _velocity.x = Mathf.SmoothDamp(_velocity.x, targetVelocityX, ref _velocityXSmoothing,
                 OnGround ? AccelerationTimeGrounded : AccelerationTimeAirborne);
-            _inputVelocity.y += Gravity * Time.deltaTime;
         }
 
         private void Awake()
@@ -81,6 +82,18 @@ namespace PlayerDan
             {
                 code = KeyCode.None;
                 characterAction = null;
+            }
+
+            public void CheckInputs(ICharacterController controller)
+            {
+                if (Input.GetKeyDown(code))
+                    characterAction.Execute(controller);
+                
+                if (Input.GetKey(code))
+                    characterAction.Hold(controller);
+                
+                if (Input.GetKeyUp(code))
+                    characterAction.Cancel(controller);
             }
         }
     }

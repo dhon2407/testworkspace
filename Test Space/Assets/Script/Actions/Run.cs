@@ -14,21 +14,40 @@ namespace Actions
         public override void Execute(ICharacterController characterController)
         {
             InitializeCharacter(characterController);
-            
+
             if (!Character.CanRun || _running) return;
             
             var currentMovespeed = Character.Movespeed;
             _speedBoost = (int) (currentMovespeed * (speedPercentIncrease / 100f));
-            Character.Movespeed += _speedBoost;
-            _running = true;
+            
+            ExecuteRun(true);
         }
 
         public override void Cancel(ICharacterController characterController)
         {
             if (!_running) return;
 
-            Character.Movespeed -= _speedBoost;
-            _running = false;
+            ExecuteRun(false);
+        }
+
+        public override void Hold(ICharacterController characterController)
+        {
+            if (!Character.CanRun && _running)
+                CancelRun();
+            
+            if (Character.CanRun && !_running)
+                Execute(characterController);
+        }
+        
+        private void ExecuteRun(bool value)
+        {
+            Character.Movespeed += (value ? _speedBoost : -_speedBoost);
+            _running = value;
+        }
+
+        private void CancelRun()
+        {
+            Cancel(Controller);
         }
     }
 }

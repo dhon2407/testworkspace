@@ -6,5 +6,6 @@ namespace Actions
     {
         void Execute(ICharacterController characterController);
         void Cancel(ICharacterController characterController);
+        void Hold(ICharacterController characterController);
     }
 }

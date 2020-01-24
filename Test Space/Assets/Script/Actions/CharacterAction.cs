@@ -11,6 +11,7 @@ namespace Actions
         
         public abstract void Execute(ICharacterController characterController);
         public abstract void Cancel(ICharacterController characterController);
+        public abstract void Hold(ICharacterController characterController);
         
         protected void InitializeCharacter(ICharacterController characterController)
         {

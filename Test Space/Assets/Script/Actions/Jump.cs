@@ -33,6 +33,9 @@ namespace Actions
                 UpdateYVelocity(characterController,  minJumpHeight / Reducer);
         }
 
+        public override void Hold(ICharacterController characterController)
+        { }
+
         private void UpdateYVelocity(ICharacterController characterController, float yValue)
         {
             var currentVelocity = characterController.CurrentVelocity;
