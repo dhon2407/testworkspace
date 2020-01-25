@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Actions
 {
-    [CreateAssetMenu(fileName = "Jump Action", menuName = "Actions/Jump")]
+    [CreateAssetMenu(fileName = "Jump", menuName = "Actions/Jump")]
     public class Jump : CharacterAction
     {
         [Header("Jump Parameters")]
@@ -20,11 +20,10 @@ namespace Actions
         {
             InitializeCharacter(characterController);
 
-            if (characterController.Character.CanJump && characterController.OnGround)
-            {
-                CalculateGravity();
-                UpdateYVelocity(characterController, _maxJumpVelocity);
-            }
+            if (!characterController.Character.CanJump || !characterController.OnGround) return;
+            
+            CalculateGravity();
+            UpdateYVelocity(characterController, _maxJumpVelocity);
         }
 
         public override void Cancel(ICharacterController characterController)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Actions
 {
-    [CreateAssetMenu(fileName = "Run Action", menuName = "Actions/Run")]
+    [CreateAssetMenu(fileName = "Run", menuName = "Actions/Run")]
     public class Run : CharacterAction
     {
         [SerializeField] private int speedPercentIncrease = 150;

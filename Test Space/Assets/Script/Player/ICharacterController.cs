@@ -14,5 +14,7 @@ namespace PlayerDan
         bool OnGround { get; }
         bool OnOverHeadCollision { get; }
         List<CollisionData> Collisions { get; }
+        Vector2 Position { get; }
+        bool DisableGravity { get; set; }
     }
 }

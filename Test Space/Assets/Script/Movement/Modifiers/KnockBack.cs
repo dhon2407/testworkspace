@@ -10,6 +10,7 @@ namespace Movement.Pushbacks
     {
         [SerializeField] private Vector2 knockBackVelocity = new Vector2(0.2f,0.1f);
         [SerializeField] private int knockBackForce = 1;
+        [SerializeField] private float duration =  0.5f;
         
         private ICharacter _character;
         private ICharacterController _controller;
@@ -19,9 +20,9 @@ namespace Movement.Pushbacks
         public void TakeEffect(ICharacter character)
         {
             _character = character;
-            _controller = character.Controller;
+            _controller = _character.Controller;
             
-            Timing.RunCoroutine(PlayerDisabled());
+            Timing.RunCoroutine(DisableInputs(duration));
 
             var direction = Mathf.Sign(_controller.CurrentVelocity.x) * -1;
             var finalKnockBackVelocity = KnockBackVelocity;
@@ -31,10 +32,10 @@ namespace Movement.Pushbacks
             _controller.UpdateVelocity(finalKnockBackVelocity * knockBackForce);
         }
 
-        private IEnumerator<float> PlayerDisabled()
+        private IEnumerator<float> DisableInputs(float time)
         {
             _controller.DisableInputs = true;
-            yield return Timing.WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(time);
             _controller.DisableInputs = false;
         }
     }

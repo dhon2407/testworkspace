@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace PlayerDan
 {
@@ -7,6 +8,12 @@ namespace PlayerDan
         //Character Stats
         string Name { get; }
         int Movespeed { get; set; }
+        Vector2 Position { get; }
+        float GroundAcceleration { get; }
+        float GroundDeceleration { get; }
+        float AirAcceleration { get; }
+        float AirDeceleration { get; }
+        
         float MaxTemp { get; }
         float CurrentTemp { get; }
         float MaxBacteria { get; }

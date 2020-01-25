@@ -22,6 +22,7 @@ namespace Movement.Core
         }
 
         public Vector2 Velocity { get; private set; }
+        public Vector2 Position => transform.position;
         public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
         public ICharacter Character { get; set; }
 

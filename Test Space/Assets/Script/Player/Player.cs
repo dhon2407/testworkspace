@@ -13,6 +13,10 @@ namespace Script
         
         [Space, Header("Player Stats")]
         [SerializeField] private int moveSpeed = 10;
+        [SerializeField] private float groundAcceleration = 0.2f;
+        [SerializeField] private float groundDeceleration = 0.1f;
+        [SerializeField] private float airAcceleration = 0.3f;
+        [SerializeField] private float airDeceleration = 0.3f;
 
         [Space]
         [SerializeField] private float maxFreshness = 100;
@@ -31,6 +35,11 @@ namespace Script
         [SerializeField] private float tempRegen = 10;
 
         public string Name => playerName;
+        public Vector2 Position => Controller.Position;
+        public float GroundAcceleration => groundAcceleration;
+        public float GroundDeceleration => groundDeceleration;
+        public float AirAcceleration => airAcceleration;
+        public float AirDeceleration => airDeceleration;
         public float MaxTemp => maxTemp;
         public float CurrentTemp => currentTemp;
         public float MaxBacteria => maxBacteria;

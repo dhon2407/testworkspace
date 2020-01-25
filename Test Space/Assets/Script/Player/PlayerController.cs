@@ -10,9 +10,6 @@ namespace PlayerDan
     public class PlayerController : MonoBehaviour, ICharacterController
     {
         [SerializeField] private List<AvailableAction> inputActions = null;
-            
-        private const float AccelerationTimeAirborne = .2f;
-        private const float AccelerationTimeGrounded = .1f;
         
         private IMovementController _moveController;
         private ICharacter _player;
@@ -20,6 +17,8 @@ namespace PlayerDan
 
         private bool _inputDisabled;
         private float _inputVelocityX;
+        
+        private bool _gravityDisabled;
 
         private float _velocityXSmoothing;
 
@@ -37,9 +36,22 @@ namespace PlayerDan
                 _inputDisabled = value;
             }
         }
-        
+
+        public bool DisableGravity
+        {
+            get => _gravityDisabled;
+            set
+            {
+                if (!_gravityDisabled && value)
+                    _velocity.y = 0;
+
+                _gravityDisabled = value;
+            }
+        }
+
         public Vector2 CurrentVelocity => _velocity;
-        
+        public Vector2 Position => _moveController.Position;
+
         public float Gravity { get; set; } = -0.50f;
 
         public bool OnGround => Collisions.Exists(data => data.Direction == CollisionDirection.Down);
@@ -65,6 +77,7 @@ namespace PlayerDan
         private void FixedUpdate()
         {
             ApplyGravity();
+            DampHorizontalVelocity();
 
             _moveController.Move(_velocity);
 
@@ -72,8 +85,25 @@ namespace PlayerDan
                 _velocity.y = 0;
         }
 
+        private void DampHorizontalVelocity()
+        {
+            var acceleration = GetHorizontalAcceleration();
+            _velocity.x = Mathf.SmoothDamp(_velocity.x, _inputVelocityX, ref _velocityXSmoothing,
+                acceleration);
+        }
+
+        private float GetHorizontalAcceleration()
+        {
+            if (OnGround)
+                return _velocity.x < _inputVelocityX ? _player.GroundAcceleration : _player.GroundDeceleration;
+            else
+                return _velocity.x < _inputVelocityX ? _player.AirAcceleration : _player.AirDeceleration;
+        }
+
         private void ApplyGravity()
         {
+            if (_gravityDisabled) return;
+            
             _velocity.y += Gravity * Time.deltaTime;
         }
 
@@ -81,9 +111,6 @@ namespace PlayerDan
         {
             if (!DisableInputs)
                 _inputVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
-
-            _velocity.x = Mathf.SmoothDamp(_velocity.x, _inputVelocityX, ref _velocityXSmoothing,
-                OnGround ? AccelerationTimeGrounded : AccelerationTimeAirborne);
         }
 
         private void Awake()

@@ -9,6 +9,7 @@ namespace Movement.Core
     {
         void Move(Vector2 velocity);
         Vector2 Velocity { get; }
+        Vector2 Position { get; }
         List<CollisionData> Collisions { get; }
     }
 }
