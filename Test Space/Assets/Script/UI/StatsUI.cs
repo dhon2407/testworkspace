@@ -12,12 +12,20 @@ public class StatsUI : MonoBehaviour
     [SerializeField] private Image bacteriaGauge = null;
     [SerializeField] private Image freshnessGauge = null;
 
+    [Space]
+    [SerializeField] private float maxBacteriaFillAmount = 0.35f;
+
+    [Space, Header("Indicators")]
+    [SerializeField] private GameObject jumpIndicator = null;
+    [SerializeField] private GameObject runIndicator = null;
+
     private void Start()
     {
         player.OnTempChange.AddListener(TemperatureChange);
         player.OnBacteriaChange.AddListener(BacteriaChange);
         player.OnFreshnessChange.AddListener(FreshnessChange);
 
+        UpdateIndicators();
     }
 
     private void FreshnessChange(float value)
@@ -32,7 +40,16 @@ public class StatsUI : MonoBehaviour
     
     private void BacteriaChange(float value)
     {
-        UpdateBacteriaRatio(value / player.MaxBacteria);
+        var newFillRatio = Mathf.Lerp(0, maxBacteriaFillAmount, value / player.MaxBacteria);
+        
+        UpdateBacteriaRatio(newFillRatio);
+        UpdateIndicators();
+    }
+
+    private void UpdateIndicators()
+    {
+        jumpIndicator.SetActive(player.CanJump);
+        runIndicator.SetActive(player.CanRun);
     }
 
     private void UpdateTemperatureRatio(float value)
