@@ -2,6 +2,7 @@
 using Actions;
 using Movement;
 using Movement.Collisions;
+using Movement.Core;
 using UnityEngine;
 
 namespace PlayerDan
@@ -17,14 +18,29 @@ namespace PlayerDan
         private ICharacter _player;
         private Vector2 _velocity;
 
+        private bool _inputDisabled;
+        private float _inputVelocityX;
+
         private float _velocityXSmoothing;
 
         private readonly float _reducer = 100f;
 
         public ICharacter Character => _player;
+        public bool DisableInputs
+        {
+            get => _inputDisabled;
+            set
+            {
+                if (!_inputDisabled && value)
+                    _inputVelocityX = 0;
+
+                _inputDisabled = value;
+            }
+        }
+        
         public Vector2 CurrentVelocity => _velocity;
         
-        public float Gravity { get; set; } = -50f;
+        public float Gravity { get; set; } = -0.50f;
 
         public bool OnGround => Collisions.Exists(data => data.Direction == CollisionDirection.Down);
         public bool OnOverHeadCollision => Collisions.Exists(data => data.Direction == CollisionDirection.Up);
@@ -37,9 +53,12 @@ namespace PlayerDan
 
         private void Update()
         {
-            foreach (var availableAction in inputActions)
-                availableAction.CheckInputs(this);
-            
+            if (!DisableInputs)
+            {
+                foreach (var availableAction in inputActions)
+                    availableAction.CheckInputs(this);
+            }
+
             UpdateInputVelocity();
         }
 
@@ -60,16 +79,19 @@ namespace PlayerDan
 
         private void UpdateInputVelocity()
         {
-            float targetVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
+            if (!DisableInputs)
+                _inputVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
 
-            _velocity.x = Mathf.SmoothDamp(_velocity.x, targetVelocityX, ref _velocityXSmoothing,
+            _velocity.x = Mathf.SmoothDamp(_velocity.x, _inputVelocityX, ref _velocityXSmoothing,
                 OnGround ? AccelerationTimeGrounded : AccelerationTimeAirborne);
         }
 
         private void Awake()
         {
             _moveController = GetComponentInChildren<IMovementController>();
+            
             _player = GetComponent<ICharacter>();
+            _player.SetController(this);
         }
 
         [System.Serializable]

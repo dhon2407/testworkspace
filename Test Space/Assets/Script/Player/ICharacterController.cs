@@ -7,6 +7,7 @@ namespace PlayerDan
     public interface ICharacterController
     {
         ICharacter Character { get; }
+        bool DisableInputs { get; set; }
         Vector2 CurrentVelocity { get; }
         void UpdateVelocity(Vector2 velocity);
         float Gravity { get; set; }

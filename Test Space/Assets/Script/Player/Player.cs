@@ -68,6 +68,13 @@ namespace Script
         public bool CanJump => CurrentBacteria / maxBacteria > 0.35f;
         public bool CanRun => CurrentBacteria / maxBacteria > 0.72f;
 
+        public ICharacterController Controller { get; private set; }
+        
+        public void SetController(ICharacterController controller)
+        {
+            Controller = controller;
+        }
+
         public int Movespeed
         {
             get => moveSpeed;
@@ -116,6 +123,4 @@ namespace Script
                 SceneManager.LoadScene(0);
         }
     }
-
-    public class StateChangeEvent : UnityEvent<float> { }
 }

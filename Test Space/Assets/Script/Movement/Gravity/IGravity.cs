@@ -1,4 +1,4 @@
-﻿namespace Movement
+﻿namespace Movement.Gravity
 {
     public interface IGravity
     {

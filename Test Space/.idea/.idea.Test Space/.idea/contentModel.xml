@@ -4,10 +4,19 @@
     <e p="C:\Users\jessi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\jessi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Test Space.-406104557.00" t="ExcludeRecursive" />
     <e p="C:\Users\jessi\Unity Project\GitHub\testworkspace\Test Space" t="IncludeRecursive">
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Plugins" t="Include">
           <e p="Sirenix" t="Include">
+            <e p="Assemblies" t="Include">
+              <e p="link.xml" t="Include" />
+              <e p="Sirenix.OdinInspector.Attributes.xml" t="Include" />
+              <e p="Sirenix.OdinInspector.Editor.xml" t="Include" />
+              <e p="Sirenix.Serialization.Config.xml" t="Include" />
+              <e p="Sirenix.Utilities.Editor.xml" t="Include" />
+              <e p="Sirenix.Utilities.xml" t="Include" />
+            </e>
             <e p="Odin Inspector" t="Include">
               <e p="Scripts" t="Include">
                 <e p="Editor" t="Include">
@@ -27,6 +36,10 @@
                 <e p="VectorIntFormatters.cs" t="Include" />
               </e>
             </e>
+            <e p="Readme.txt" t="Include" />
+          </e>
+          <e p="Trinary Software" t="Include">
+            <e p="Timing.cs" t="Include" />
           </e>
         </e>
         <e p="Script" t="Include">
@@ -52,16 +65,24 @@
             <e p="Collider2DExtensions.cs" t="Include" />
           </e>
           <e p="Movement" t="Include">
-            <e p="BasicGravity.cs" t="Include" />
             <e p="Collisions" t="Include">
               <e p="CollisionData.cs" t="Include" />
               <e p="ICollisionDetector.cs" t="Include" />
               <e p="Raycast3DCollisionDetector.cs" t="Include" />
               <e p="RaycastCollisionDetector.cs" t="Include" />
             </e>
-            <e p="IGravity.cs" t="Include" />
-            <e p="IMovementController.cs" t="Include" />
-            <e p="MovementController.cs" t="Include" />
+            <e p="Core" t="Include">
+              <e p="IMovementController.cs" t="Include" />
+              <e p="MovementController.cs" t="Include" />
+            </e>
+            <e p="Gravity" t="Include">
+              <e p="BasicGravity.cs" t="Include" />
+              <e p="IGravity.cs" t="Include" />
+            </e>
+            <e p="Pushbacks" t="Include">
+              <e p="IMovementModifier.cs" t="Include" />
+              <e p="KnockBack.cs" t="Include" />
+            </e>
           </e>
           <e p="Player" t="Include">
             <e p="Hitbox.cs" t="Include" />
@@ -69,6 +90,7 @@
             <e p="ICharacterController.cs" t="Include" />
             <e p="Player.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
+            <e p="StateChangeEvent.cs" t="Include" />
           </e>
           <e p="SL 2D Movement" t="Include">
             <e p="CameraFollow.cs" t="Include" />

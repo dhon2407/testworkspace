@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Movement.Core;
+using UnityEngine;
 
-namespace Movement
+namespace Movement.Gravity
 {
     [AddComponentMenu("Movement/Default Gravity")]
     public class BasicGravity : MonoBehaviour, IMovementModifier, IGravity

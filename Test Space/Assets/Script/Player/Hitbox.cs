@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Movement;
+using Movement.Pushbacks;
 using PlayerDan;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,6 +46,9 @@ namespace Script
             {
                 SceneManager.LoadScene(0);
             }
+
+            if (other.CompareTag($"PushBack"))
+                ScriptableObject.CreateInstance<KnockBack>().TakeEffect(_character);
         }
         
         private void OnTriggerExit2D(Collider2D other)

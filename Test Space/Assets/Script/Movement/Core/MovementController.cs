@@ -3,7 +3,7 @@ using Movement.Collisions;
 using PlayerDan;
 using UnityEngine;
 
-namespace Movement
+namespace Movement.Core
 {
     public class MovementController : MonoBehaviour, IMovementController
     {

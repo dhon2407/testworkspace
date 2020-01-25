@@ -28,5 +28,8 @@ namespace PlayerDan
         //Character Restrictions
         bool CanJump { get; }
         bool CanRun { get; }
+        
+        ICharacterController Controller { get; }
+        void SetController(ICharacterController controller);
     }
 }

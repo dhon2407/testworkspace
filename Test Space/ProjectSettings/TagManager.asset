@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnvironmentEffector
   - DeathArea
+  - PushBack
   layers:
   - Default
   - TransparentFX
