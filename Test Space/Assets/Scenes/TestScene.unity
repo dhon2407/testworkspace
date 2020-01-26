@@ -2875,6 +2875,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Hamburger
   moveSpeed: 10
+  groundAcceleration: 0.2
+  groundDeceleration: 0.1
+  airAcceleration: 0.3
+  airDeceleration: 0.3
   maxFreshness: 100
   maxTemp: 100
   maxBacteria: 100
