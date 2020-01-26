@@ -2,8 +2,8 @@
 
 namespace Script
 {
-    public interface IEffector
+    public interface IEffector<T> where T : ICharStats
     {
-        void TakeEffect(ICharacter character);
+        void TakeEffect(ICharacter<T> character);
     }
 }

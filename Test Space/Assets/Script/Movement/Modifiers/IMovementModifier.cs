@@ -2,8 +2,8 @@
 
 namespace Movement.Pushbacks
 {
-    public interface IMovementModifier
+    public interface IMovementModifier<T> where T : ICharStats
     {
-        void TakeEffect(ICharacter character);
+        void TakeEffect(ICharacter<T> character);
     }
 }

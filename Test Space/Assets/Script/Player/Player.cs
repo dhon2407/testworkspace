@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using Actions;
+using Movement.Core;
 using PlayerDan;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace Script
 {
-    public class Player : MonoBehaviour, ICharacter
+    public class Player : MonoBehaviour, ICharacter<PlayerData>
     {
         [SerializeField] private string playerName = "Hamvurg";
         
@@ -34,8 +38,11 @@ namespace Script
         [Space]
         [SerializeField] private float tempRegen = 10;
 
+        [Space]
+        [SerializeField] private List<AvailableAction<PlayerData>> availableActions = new List<AvailableAction<PlayerData>>();
+
         public string Name => playerName;
-        public Vector2 Position => Controller.Position;
+        public Vector2 Position => MoveController.Position;
         public float GroundAcceleration => groundAcceleration;
         public float GroundDeceleration => groundDeceleration;
         public float AirAcceleration => airAcceleration;
@@ -76,13 +83,6 @@ namespace Script
         public UnityEvent<float> OnFreshnessChange { get; } = new StateChangeEvent();
         public bool CanJump => CurrentBacteria / maxBacteria > 0.35f;
         public bool CanRun => CurrentBacteria / maxBacteria > 0.72f;
-
-        public ICharacterController Controller { get; private set; }
-        
-        public void SetController(ICharacterController controller)
-        {
-            Controller = controller;
-        }
 
         public int Movespeed
         {
@@ -131,5 +131,10 @@ namespace Script
             if (currentFreshness <= 0)
                 SceneManager.LoadScene(0);
         }
+
+        public IMovementController MoveController { get; }
+        public PlayerData Stats { get; }
+
+        public List<AvailableAction<PlayerData>> Actions => availableActions;
     }
 }

@@ -23,8 +23,15 @@ namespace Movement.Core
 
         public Vector2 Velocity { get; private set; }
         public Vector2 Position => transform.position;
+        
+        //TODO: Implement
+        public int Movespeed { get; set; }
+        public float GroundAcceleration { get; }
+        public float GroundDeceleration { get; }
+        public float AirAcceleration { get; }
+        public float AirDeceleration { get; }
+        
         public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
-        public ICharacter Character { get; set; }
 
         private void UpdateCollisions()
         {

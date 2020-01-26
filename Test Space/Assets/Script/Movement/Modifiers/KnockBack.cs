@@ -6,18 +6,18 @@ using UnityEngine;
 namespace Movement.Pushbacks
 {
     [CreateAssetMenu(fileName = "Knock Back", menuName = "Move Modifiers/Knock Back")]
-    public class KnockBack : ScriptableObject, IMovementModifier
+    public class KnockBack : ScriptableObject, IMovementModifier<PlayerData>
     {
         [SerializeField] private Vector2 knockBackVelocity = new Vector2(0.2f,0.1f);
         [SerializeField] private int knockBackForce = 1;
         [SerializeField] private float duration =  0.5f;
         
-        private ICharacter _character;
-        private ICharacterController _controller;
+        private ICharacter<PlayerData> _character;
+        private ICharacterController<PlayerData> _controller;
 
         private Vector2 KnockBackVelocity => knockBackVelocity;
         
-        public void TakeEffect(ICharacter character)
+        public void TakeEffect(ICharacter<PlayerData> character)
         {
             _character = character;
             _controller = _character.Controller;

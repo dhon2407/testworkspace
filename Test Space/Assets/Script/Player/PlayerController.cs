@@ -5,14 +5,16 @@ using Movement.Collisions;
 using Movement.Core;
 using UnityEngine;
 
+
+
 namespace PlayerDan
 {
-    public class PlayerController : MonoBehaviour, ICharacterController
+    using CharacterController = ICharacterController<PlayerData>;
+    
+    public class PlayerController : MonoBehaviour, CharacterController
     {
-        [SerializeField] private List<AvailableAction> inputActions = null;
-        
         private IMovementController _moveController;
-        private ICharacter _player;
+        private ICharacter<PlayerData> _player;
         private Vector2 _velocity;
 
         private bool _inputDisabled;
@@ -24,7 +26,7 @@ namespace PlayerDan
 
         private readonly float _reducer = 100f;
 
-        public ICharacter Character => _player;
+        public ICharacter<PlayerData> Character => _player;
         public bool DisableInputs
         {
             get => _inputDisabled;
@@ -56,6 +58,8 @@ namespace PlayerDan
 
         public bool OnGround => Collisions.Exists(data => data.Direction == CollisionDirection.Down);
         public bool OnOverHeadCollision => Collisions.Exists(data => data.Direction == CollisionDirection.Up);
+        
+        public List<AvailableAction<PlayerData>> Actions => _player.Actions;
         public List<CollisionData> Collisions => _moveController.Collisions;
         
         public void UpdateVelocity(Vector2 velocity)
@@ -67,7 +71,7 @@ namespace PlayerDan
         {
             if (!DisableInputs)
             {
-                foreach (var availableAction in inputActions)
+                foreach (var availableAction in Actions)
                     availableAction.CheckInputs(this);
             }
 
@@ -115,35 +119,10 @@ namespace PlayerDan
 
         private void Awake()
         {
-            _moveController = GetComponentInChildren<IMovementController>();
-            
-            _player = GetComponent<ICharacter>();
-            _player.SetController(this);
+            _player = GetComponentInChildren<ICharacter<PlayerData>>();
+            _moveController = _player.MoveController;
         }
 
-        [System.Serializable]
-        private struct AvailableAction
-        {
-            public KeyCode code;
-            public CharacterAction characterAction;
 
-            public AvailableAction(KeyCode keyCode)
-            {
-                code = KeyCode.None;
-                characterAction = null;
-            }
-
-            public void CheckInputs(ICharacterController controller)
-            {
-                if (Input.GetKeyDown(code))
-                    characterAction.Execute(controller);
-                
-                if (Input.GetKey(code))
-                    characterAction.Hold(controller);
-                
-                if (Input.GetKeyUp(code))
-                    characterAction.Cancel(controller);
-            }
-        }
     }
 }

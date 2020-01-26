@@ -2,10 +2,10 @@
 
 namespace Actions
 {
-    public interface IAction
+    public interface IAction<T> where T : ICharStats
     {
-        void Execute(ICharacterController characterController);
-        void Cancel(ICharacterController characterController);
-        void Hold(ICharacterController characterController);
+        void Execute(ICharacterController<T> characterController);
+        void Cancel(ICharacterController<T> characterController);
+        void Hold(ICharacterController<T> characterController);
     }
 }

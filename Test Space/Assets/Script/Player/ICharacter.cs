@@ -1,42 +1,43 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Actions;
+using Movement.Core;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace PlayerDan
 {
-    public interface ICharacter
+    public interface ICharacter<T> where T : ICharStats
     {
-        //Character Stats
-        string Name { get; }
-        int Movespeed { get; set; }
-        Vector2 Position { get; }
-        float GroundAcceleration { get; }
-        float GroundDeceleration { get; }
-        float AirAcceleration { get; }
-        float AirDeceleration { get; }
-        
-        float MaxTemp { get; }
-        float CurrentTemp { get; }
-        float MaxBacteria { get; }
-        float CurrentBacteria { get; }
-        float MaxFreshness { get; }
-        float CurrentFreshness { get; }
-        
-        //Stat Functions
-        void IncreaseTemp(float value);
-        void DecreaseTemp(float value);
-        void IncreaseBacteria(float value);
-        void DecreaseBacteria(float value);
+        IMovementController MoveController { get; }
+        T Stats { get; }
+        List<AvailableAction<T>> Actions { get; }
+    }
 
-        //Stat Change Events
-        UnityEvent<float> OnTempChange { get; }
-        UnityEvent<float> OnBacteriaChange { get; }
-        UnityEvent<float> OnFreshnessChange { get; }
-        
-        //Character Restrictions
-        bool CanJump { get; }
-        bool CanRun { get; }
-        
-        ICharacterController Controller { get; }
-        void SetController(ICharacterController controller);
+    public interface ICharStats
+    { }
+    
+    [System.Serializable]
+    public struct AvailableAction<T> where T : ICharStats
+    {
+        public KeyCode code;
+        public IAction<T> characterAction;
+
+        public AvailableAction(KeyCode keyCode)
+        {
+            code = KeyCode.None;
+            characterAction = null;
+        }
+
+        public void CheckInputs(ICharacterController<T> controller)
+        {
+            if (Input.GetKeyDown(code))
+                characterAction.Execute(controller);
+                
+            if (Input.GetKey(code))
+                characterAction.Hold(controller);
+                
+            if (Input.GetKeyUp(code))
+                characterAction.Cancel(controller);
+        }
     }
 }

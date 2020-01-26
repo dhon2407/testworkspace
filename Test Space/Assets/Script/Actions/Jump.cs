@@ -16,7 +16,7 @@ namespace Actions
 
         private const float Reducer = 100f;
 
-        public override void Execute(ICharacterController characterController)
+        public override void Execute(ICharacterController<PlayerData> characterController)
         {
             InitializeCharacter(characterController);
 
@@ -26,16 +26,16 @@ namespace Actions
             UpdateYVelocity(characterController, _maxJumpVelocity);
         }
 
-        public override void Cancel(ICharacterController characterController)
+        public override void Cancel(ICharacterController<PlayerData> characterController)
         {
             if (characterController.CurrentVelocity.y > _minJumpVelocity)
                 UpdateYVelocity(characterController,  minJumpHeight / Reducer);
         }
 
-        public override void Hold(ICharacterController characterController)
+        public override void Hold(ICharacterController<PlayerData> characterController)
         { }
 
-        private void UpdateYVelocity(ICharacterController characterController, float yValue)
+        private void UpdateYVelocity(ICharacterController<PlayerData> characterController, float yValue)
         {
             var currentVelocity = characterController.CurrentVelocity;
             currentVelocity.y = yValue;

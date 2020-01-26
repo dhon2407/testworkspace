@@ -11,7 +11,7 @@ namespace Actions
         private bool _running;
         private int _speedBoost;
         
-        public override void Execute(ICharacterController characterController)
+        public override void Execute(ICharacterController<PlayerData> characterController)
         {
             InitializeCharacter(characterController);
 
@@ -23,14 +23,14 @@ namespace Actions
             ExecuteRun(true);
         }
 
-        public override void Cancel(ICharacterController characterController)
+        public override void Cancel(ICharacterController<PlayerData> characterController)
         {
             if (!_running) return;
 
             ExecuteRun(false);
         }
 
-        public override void Hold(ICharacterController characterController)
+        public override void Hold(ICharacterController<PlayerData> characterController)
         {
             if (!Character.CanRun && _running)
                 CancelRun();

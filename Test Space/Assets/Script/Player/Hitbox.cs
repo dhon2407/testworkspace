@@ -10,13 +10,13 @@ namespace Script
 {
     public class Hitbox : MonoBehaviour
     {
-        private ICharacter _character;
-        private List<IEffector> _effectors;
+        private ICharacter<PlayerData> _character;
+        private List<IEffector<PlayerData>> _effectors;
 
         private void Awake()
         {
-            _effectors = new List<IEffector>();
-            _character = GetComponentInParent<ICharacter>();
+            _effectors = new List<IEffector<PlayerData>>();
+            _character = GetComponentInParent<ICharacter<PlayerData>>();
         }
 
         private void Update()
@@ -37,7 +37,7 @@ namespace Script
         {
             if (other.CompareTag($"EnvironmentEffector"))
             {
-                var effector = other.GetComponent<IEffector>();
+                var effector = other.GetComponent<IEffector<PlayerData>>();
                 if (effector != null && !_effectors.Contains(effector))
                     _effectors.Add(effector);
             }
@@ -55,7 +55,7 @@ namespace Script
         {
             if (other.CompareTag($"EnvironmentEffector"))
             {
-                var effector = other.GetComponent<IEffector>();
+                var effector = other.GetComponent<IEffector<PlayerData>>();
                 if (effector != null && _effectors.Contains(effector))
                     _effectors.Remove(effector);
             }
