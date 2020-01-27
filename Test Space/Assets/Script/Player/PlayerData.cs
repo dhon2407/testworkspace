@@ -1,9 +1,11 @@
-﻿using DM2DMovement.Core;
+﻿using System;
+using DM2DMovement.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace PlayerDan
 {
+    [Serializable]
     public struct PlayerData : ICharStats
     {
         public string Name;
@@ -13,6 +15,10 @@ namespace PlayerDan
         public float CurrentBacteria;
         public float MaxFreshness;
         public float CurrentFreshness;
+
+        public int BacteriaGainSpeed;
+        public float FreshnessDrain;
+        public float TempRegen;
         
         //Character Restrictions
         public bool CanJump;

@@ -46,14 +46,33 @@
           <e p="Actions" t="Include">
             <e p="CharacterAction.cs" t="Include" />
             <e p="Dash.cs" t="Include" />
-            <e p="IAction.cs" t="Include" />
             <e p="Jump.cs" t="Include" />
+            <e p="PlayerAction.cs" t="Include" />
             <e p="Run.cs" t="Include" />
           </e>
           <e p="Block.cs" t="Include" />
           <e p="Board.cs" t="Include" />
           <e p="Camera" t="Include">
             <e p="CameraFollow.cs" t="Include" />
+          </e>
+          <e p="DM2DMovement" t="Include">
+            <e p="Collisions" t="Include">
+              <e p="CollisionData.cs" t="Include" />
+              <e p="ICollisionDetector.cs" t="Include" />
+              <e p="Raycast3DCollisionDetector.cs" t="Include" />
+              <e p="RaycastCollisionDetector.cs" t="Include" />
+            </e>
+            <e p="Core" t="Include">
+              <e p="AvailableAction.cs" t="Include" />
+              <e p="IAction.cs" t="Include" />
+              <e p="ICharacter.cs" t="Include" />
+              <e p="ICharacterController.cs" t="Include" />
+              <e p="ICharStats.cs" t="Include" />
+              <e p="IMovementController.cs" t="Include" />
+            </e>
+            <e p="Helpers" t="Include">
+              <e p="Collider2DExtensions.cs" t="Include" />
+            </e>
           </e>
           <e p="Environment" t="Include">
             <e p="Effectors" t="Include">
@@ -62,20 +81,7 @@
               <e p="IEffector.cs" t="Include" />
             </e>
           </e>
-          <e p="Helpers" t="Include">
-            <e p="Collider2DExtensions.cs" t="Include" />
-          </e>
           <e p="Movement" t="Include">
-            <e p="Collisions" t="Include">
-              <e p="CollisionData.cs" t="Include" />
-              <e p="ICollisionDetector.cs" t="Include" />
-              <e p="Raycast3DCollisionDetector.cs" t="Include" />
-              <e p="RaycastCollisionDetector.cs" t="Include" />
-            </e>
-            <e p="Core" t="Include">
-              <e p="IMovementController.cs" t="Include" />
-              <e p="MovementController.cs" t="Include" />
-            </e>
             <e p="Gravity" t="Include">
               <e p="BasicGravity.cs" t="Include" />
               <e p="IGravity.cs" t="Include" />
@@ -84,11 +90,10 @@
               <e p="IMovementModifier.cs" t="Include" />
               <e p="KnockBack.cs" t="Include" />
             </e>
+            <e p="MovementController.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
             <e p="Hitbox.cs" t="Include" />
-            <e p="ICharacter.cs" t="Include" />
-            <e p="ICharacterController.cs" t="Include" />
             <e p="Player.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="PlayerData.cs" t="Include" />

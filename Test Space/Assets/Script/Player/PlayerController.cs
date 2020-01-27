@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DM2DMovement.Collisions;
 using DM2DMovement.Core;
 using UnityEngine;
@@ -11,17 +12,15 @@ namespace PlayerDan
     
     public class PlayerController : MonoBehaviour, CharacterController
     {
-        private ICharacter<PlayerData> _player;
         private Vector2 _velocity;
 
         private bool _inputDisabled;
-        private float _inputVelocityX;
 
         private Vector2 _inputVelocity;
         
         private readonly float _reducer = 100f;
 
-        public ICharacter<PlayerData> Character => _player;
+        public ICharacter<PlayerData> Character { get; private set; }
         public IMovementController MoveController { get; private set; }
 
         public bool DisableInputs
@@ -30,7 +29,7 @@ namespace PlayerDan
             set
             {
                 if (!_inputDisabled && value)
-                    _inputVelocityX = 0;
+                    _inputVelocity.x = 0;
 
                 _inputDisabled = value;
             }
@@ -39,7 +38,7 @@ namespace PlayerDan
         public Vector2 Position => MoveController.Position;
         public bool DisableGravity { get; set; }
 
-        public List<AvailableAction<PlayerData>> Actions => _player.Actions;
+        public List<AvailableAction<PlayerData>> Actions => Character.Actions;
         public List<CollisionData> Collisions => MoveController.Collisions;
 
         public Vector2 CharacterVelocity => MoveController.Velocity;
@@ -55,10 +54,10 @@ namespace PlayerDan
             {
                 foreach (var availableAction in Actions)
                     availableAction.CheckInputs(this);
+                
+                UpdateInputVelocity();
             }
 
-            UpdateInputVelocity();
-            
             if (_inputVelocity != Vector2.zero)
                 MoveController.Move(_inputVelocity);
         }
@@ -71,13 +70,17 @@ namespace PlayerDan
         private void UpdateInputVelocity()
         {
             if (!DisableInputs)
-                _inputVelocityX = Input.GetAxisRaw("Horizontal") * (_player.Movespeed / _reducer);
+                _inputVelocity.x = Input.GetAxisRaw("Horizontal") * (Character.Movespeed / _reducer);
         }
 
         private void Awake()
         {
-            _player = GetComponentInChildren<ICharacter<PlayerData>>();
-            MoveController = _player.MoveController;
+            Character = GetComponent<ICharacter<PlayerData>>();
+        }
+
+        private void Start()
+        {
+            MoveController = Character.MoveController;
         }
     }
 }

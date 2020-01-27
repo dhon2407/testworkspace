@@ -1595,7 +1595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &604426368
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2141,6 +2141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94679d1b5604085b6c236d5b87f428a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundAcceleration: 0
+  groundDeceleration: 0
+  airAcceleration: 0
+  airDeceleration: 0
 --- !u!114 &743714725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2839,13 +2843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96288c485f1a4e4c81f6a045a92b346c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions:
-  - code: 32
-    characterAction: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
-  - code: 304
-    characterAction: {fileID: 11400000, guid: acb7da5fd938d044c9aecaaae29443d8, type: 2}
-  - code: 114
-    characterAction: {fileID: 11400000, guid: bfe5f6d2de6ac984d8072b20dc5ba077, type: 2}
 --- !u!4 &1109324994
 Transform:
   m_ObjectHideFlags: 0
@@ -2873,21 +2870,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce1e5b24b5241d28f57582543e0e589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: Hamburger
   moveSpeed: 10
-  groundAcceleration: 0.2
-  groundDeceleration: 0.1
-  airAcceleration: 0.3
-  airDeceleration: 0.3
-  maxFreshness: 100
-  maxTemp: 100
-  maxBacteria: 100
-  currentFreshness: 100
-  currentTemp: 50
-  currentBacteria: 0
-  bacteriaGainSpeed: 8
-  freshnessDrain: 5
-  tempRegen: 1.2
+  stats:
+    Name: 
+    MaxTemp: 100
+    CurrentTemp: 50
+    MaxBacteria: 100
+    CurrentBacteria: 0
+    MaxFreshness: 100
+    CurrentFreshness: 100
+    BacteriaGainSpeed: 1
+    FreshnessDrain: 1
+    TempRegen: 1
+    CanJump: 1
+    CanRun: 1
+  availableActions:
+  - _code: 32
+    _action: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
 --- !u!1 &1149351942
 GameObject:
   m_ObjectHideFlags: 0

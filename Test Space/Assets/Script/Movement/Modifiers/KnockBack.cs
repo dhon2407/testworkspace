@@ -11,7 +11,7 @@ namespace Movement.Modifiers
     {
         [SerializeField] private Vector2 knockBackVelocity = new Vector2(0.2f,0.1f);
         [SerializeField] private int knockBackForce = 1;
-        [SerializeField] private float duration =  0.5f;
+        [SerializeField] private float duration =  1.5f;
         
         private ICharacter<PlayerData> _character;
         private ICharacterController<PlayerData> _controller;
@@ -21,7 +21,7 @@ namespace Movement.Modifiers
         public void TakeEffect(ICharacter<PlayerData> character)
         {
             _character = character;
-            //TODO: _controller = _character.Controller;
+            _controller = _character.Controller;
             
             Timing.RunCoroutine(DisableInputs(duration));
 
@@ -30,7 +30,7 @@ namespace Movement.Modifiers
 
             finalKnockBackVelocity.x *= direction;
             
-            //TODO: _controller.UpdateVelocity(finalKnockBackVelocity * knockBackForce);
+            _controller.SetCharacterVelocity(finalKnockBackVelocity * knockBackForce);
         }
 
         private IEnumerator<float> DisableInputs(float time)

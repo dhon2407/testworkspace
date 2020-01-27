@@ -7,7 +7,6 @@ namespace Movement.Core
 {
     public class MovementController : MonoBehaviour, IMovementController
     {
-        [SerializeField] private int moveSpeed = 10;
         [SerializeField] private float groundAcceleration = 0.2f;
         [SerializeField] private float groundDeceleration = 0.1f;
         [SerializeField] private float airAcceleration = 0.3f;
@@ -46,7 +45,8 @@ namespace Movement.Core
             transform.Translate(_targetVelocity);
 
             _currentVelocity = _targetVelocity;
-            _targetVelocity = Vector2.zero;
+            
+            _targetVelocity.x = 0;
         }
 
         public Vector2 Velocity => _currentVelocity;
@@ -54,7 +54,6 @@ namespace Movement.Core
         
         public float Gravity { get; set; } = DefaultGravity;
         
-        public int Movespeed => moveSpeed;
         public float GroundAcceleration => groundAcceleration;
         public float GroundDeceleration => groundDeceleration;
         public float AirAcceleration => airAcceleration;
@@ -143,7 +142,6 @@ namespace Movement.Core
         {
             _collisionDetector = GetComponent<ICollisionDetector>();
             _movementModifiers = new List<IMovementModifier>(GetComponents<IMovementModifier>());
-            
         }
     }
 
