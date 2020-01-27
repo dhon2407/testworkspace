@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Movement.Collisions;
-using PlayerDan;
+using DM2DMovement.Collisions;
 using UnityEngine;
 
-namespace Movement.Core
+namespace DM2DMovement.Core
 {
     public interface IMovementController
     {
@@ -11,7 +10,10 @@ namespace Movement.Core
         Vector2 Velocity { get; }
         Vector2 Position { get; }
         
-        int Movespeed { get; set; }
+        float Gravity { get; set; }
+        bool DisableGravity { get; set; }
+        bool OnGround { get; }
+        
         float GroundAcceleration { get; }
         float GroundDeceleration { get; }
         float AirAcceleration { get; }

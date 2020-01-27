@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class StatsUI : MonoBehaviour
 {
-    [SerializeField] private Script.Player player = null;
+    [SerializeField] private PlayerDan.Player player = null;
     [Space]
     [SerializeField] private Slider temperatureSlider = null;
     [SerializeField] private Image bacteriaGauge = null;
@@ -30,17 +30,17 @@ public class StatsUI : MonoBehaviour
 
     private void FreshnessChange(float value)
     {
-        UpdateFreshnessRatio(value / player.MaxFreshness);
+        UpdateFreshnessRatio(value / player.Stats.MaxFreshness);
     }
 
     private void TemperatureChange(float value)
     {
-        UpdateTemperatureRatio(value / player.MaxTemp);
+        UpdateTemperatureRatio(value / player.Stats.MaxTemp);
     }
     
     private void BacteriaChange(float value)
     {
-        var newFillRatio = Mathf.Lerp(0, maxBacteriaFillAmount, value / player.MaxBacteria);
+        var newFillRatio = Mathf.Lerp(0, maxBacteriaFillAmount, value / player.Stats.MaxBacteria);
         
         UpdateBacteriaRatio(newFillRatio);
         UpdateIndicators();

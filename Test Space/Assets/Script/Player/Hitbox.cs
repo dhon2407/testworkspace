@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Movement;
-using Movement.Pushbacks;
+﻿using System.Collections.Generic;
+using DM2DMovement.Core;
+using Environment.Effectors;
+using Movement.Modifiers;
 using PlayerDan;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Script
+namespace PlayerDan
 {
     public class Hitbox : MonoBehaviour
     {

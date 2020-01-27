@@ -1,21 +1,8 @@
-﻿using System.Collections.Generic;
-using Actions;
-using Movement.Core;
+﻿using Actions;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace PlayerDan
+namespace DM2DMovement.Core
 {
-    public interface ICharacter<T> where T : ICharStats
-    {
-        IMovementController MoveController { get; }
-        T Stats { get; }
-        List<AvailableAction<T>> Actions { get; }
-    }
-
-    public interface ICharStats
-    { }
-    
     [System.Serializable]
     public struct AvailableAction<T> where T : ICharStats
     {

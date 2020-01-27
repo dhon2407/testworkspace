@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Helpers
+namespace DM2DMovement.Helpers
 {
     public static class Collider2DExtensions
     {

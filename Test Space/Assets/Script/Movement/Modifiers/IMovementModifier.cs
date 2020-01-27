@@ -1,6 +1,6 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
 
-namespace Movement.Pushbacks
+namespace Movement.Modifiers
 {
     public interface IMovementModifier<T> where T : ICharStats
     {

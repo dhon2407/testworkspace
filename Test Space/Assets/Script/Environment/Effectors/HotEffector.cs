@@ -1,7 +1,8 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
+using PlayerDan;
 using UnityEngine;
 
-namespace Script
+namespace Environment.Effectors
 {
     public class HotEffector : MonoBehaviour, IEffector<PlayerData>
     {
@@ -9,7 +10,8 @@ namespace Script
 
         public void TakeEffect(ICharacter<PlayerData> character)
         {
-            character.IncreaseTemp(changeValue * Time.deltaTime);
+            character.Stats.IncreaseTemp(changeValue * Time.deltaTime);
+            //TODO: Call temp change event
         }
     }
 }

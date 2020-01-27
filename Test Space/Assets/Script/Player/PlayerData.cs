@@ -1,4 +1,8 @@
-﻿namespace PlayerDan
+﻿using DM2DMovement.Core;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace PlayerDan
 {
     public struct PlayerData : ICharStats
     {
@@ -13,5 +17,36 @@
         //Character Restrictions
         public bool CanJump;
         public bool CanRun;
+        
+        public float TempRatio => CurrentTemp / MaxTemp;
+        public float BacteriaRatio => CurrentTemp / MaxTemp;
+        
+        public void IncreaseTemp(float value)
+        {
+            CurrentTemp = Mathf.Clamp(CurrentTemp + Mathf.Abs(value), 0, MaxTemp);
+        }
+
+        public void DecreaseTemp(float value)
+        {
+            CurrentTemp = Mathf.Clamp(CurrentTemp - Mathf.Abs(value), 0, MaxTemp);
+        }
+
+        public void IncreaseBacteria(float value)
+        {
+            CurrentBacteria = Mathf.Clamp(CurrentBacteria + Mathf.Abs(value), 0, MaxBacteria);
+        }
+
+        public void DecreaseBacteria(float value)
+        {
+            CurrentBacteria = Mathf.Clamp(CurrentBacteria - Mathf.Abs(value), 0, MaxBacteria);
+        }
+        
+        public void DecreaseFreshness(float value)
+        {
+            CurrentFreshness = Mathf.Clamp(CurrentFreshness - Mathf.Abs(value), 0, MaxFreshness);
+
+            if (CurrentFreshness <= 0)
+                SceneManager.LoadScene(0);
+        }
     }
 }

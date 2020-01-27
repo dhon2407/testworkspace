@@ -1,4 +1,5 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
+using PlayerDan;
 using UnityEngine;
 
 namespace Actions
@@ -15,7 +16,7 @@ namespace Actions
         {
             InitializeCharacter(characterController);
 
-            if (!Character.CanRun || _running) return;
+            if (!Character.Stats.CanRun || _running) return;
             
             var currentMovespeed = Character.Movespeed;
             _speedBoost = (int) (currentMovespeed * (speedPercentIncrease / 100f));
@@ -32,10 +33,10 @@ namespace Actions
 
         public override void Hold(ICharacterController<PlayerData> characterController)
         {
-            if (!Character.CanRun && _running)
+            if (!Character.Stats.CanRun && _running)
                 CancelRun();
             
-            if (Character.CanRun && !_running)
+            if (Character.Stats.CanRun && !_running)
                 Execute(characterController);
         }
         

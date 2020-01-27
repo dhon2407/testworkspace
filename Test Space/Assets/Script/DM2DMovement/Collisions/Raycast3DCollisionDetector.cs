@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using DM2DMovement.Helpers;
 using UnityEngine;
-using Helpers;
 
-namespace Movement.Collisions
+namespace DM2DMovement.Collisions
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class RaycastCollisionDetector : MonoBehaviour, ICollisionDetector
+    public class Raycast3DCollisionDetector : MonoBehaviour, ICollisionDetector
     {
         [SerializeField] private float raySpacing = 0.05f;
         [SerializeField] private LayerMask collisionMask = 0;
@@ -47,15 +47,16 @@ namespace Movement.Collisions
         public void CheckVerticalCollisions(Vector2 velocity)
         {
             Vector2 direction = (Math.Sign(velocity.y) > 0) ? Up : Down;
-            Vector2 rayOrigin = (direction == Up) ? _rayOrigins.topLeft : _rayOrigins.bottomLeft;
+            Vector3 rayOrigin = (direction == Up) ? _rayOrigins.topLeft : _rayOrigins.bottomLeft;
+            rayOrigin.z = transform.position.z;
             float rayLength = Mathf.Abs(velocity.y) + SkinWidth;
 
             for (int i = 0; i < _verticalRayCount; i++)
             {
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin + (Vector2.right * (i * _verticalRaySpacing)), direction,
-                    rayLength, collisionMask);
+                RaycastHit hit;
 
-                if (hit)
+                if (Physics.Raycast(rayOrigin + (Vector3.right * (i * _verticalRaySpacing)), direction, out hit,
+                    rayLength, collisionMask))
                 {
                     if (direction == Up)
                     {
@@ -77,7 +78,7 @@ namespace Movement.Collisions
                     rayLength = hit.distance;
                 }
                 
-                Debug.DrawRay(rayOrigin + (Vector2.right * (i * _verticalRaySpacing)),
+                Debug.DrawRay(rayOrigin + (Vector3.right * (i * _verticalRaySpacing)),
                     direction * rayLength,
                     Color.red);
             }
@@ -86,15 +87,16 @@ namespace Movement.Collisions
         public void CheckHorizontalCollisions(Vector2 velocity)
         {
             Vector2 direction = (Math.Sign(velocity.x) > 0) ? Right : Left;
-            Vector2 rayOrigin = (direction == Right) ? _rayOrigins.bottomRight : _rayOrigins.bottomLeft;
+            Vector3 rayOrigin = (direction == Right) ? _rayOrigins.bottomRight : _rayOrigins.bottomLeft;
+            rayOrigin.z = transform.position.z;
             float rayLength = Mathf.Abs(velocity.x) + SkinWidth;
 
             for (int i = 0; i < _horizontalRayCount; i++)
             {
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin + (Vector2.up * (i * _horizontalRaySpacing)), direction,
-                    rayLength, collisionMask);
+                RaycastHit hit;
 
-                if (hit)
+                if (Physics.Raycast(rayOrigin + (Vector3.up * (i * _horizontalRaySpacing)), direction, out hit,
+                    rayLength, collisionMask))
                 {
                     if (direction == Right)
                     {
@@ -117,7 +119,7 @@ namespace Movement.Collisions
                 }
                 
                 
-                Debug.DrawRay(rayOrigin + (Vector2.up * (i * _horizontalRaySpacing)),
+                Debug.DrawRay(rayOrigin + (Vector3.up * (i * _horizontalRaySpacing)),
                     direction * rayLength,
                     Color.red);
             }

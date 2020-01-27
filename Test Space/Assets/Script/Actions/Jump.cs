@@ -1,4 +1,5 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
+using PlayerDan;
 using UnityEngine;
 
 namespace Actions
@@ -20,7 +21,7 @@ namespace Actions
         {
             InitializeCharacter(characterController);
 
-            if (!characterController.Character.CanJump || !characterController.OnGround) return;
+            if (!Character.Stats.CanJump || !MoveController.OnGround) return;
             
             CalculateGravity();
             UpdateYVelocity(characterController, _maxJumpVelocity);
@@ -28,7 +29,7 @@ namespace Actions
 
         public override void Cancel(ICharacterController<PlayerData> characterController)
         {
-            if (characterController.CurrentVelocity.y > _minJumpVelocity)
+            if (characterController.CharacterVelocity.y > _minJumpVelocity)
                 UpdateYVelocity(characterController,  minJumpHeight / Reducer);
         }
 
@@ -37,17 +38,17 @@ namespace Actions
 
         private void UpdateYVelocity(ICharacterController<PlayerData> characterController, float yValue)
         {
-            var currentVelocity = characterController.CurrentVelocity;
+            var currentVelocity = characterController.CharacterVelocity;
             currentVelocity.y = yValue;
-            characterController.UpdateVelocity(currentVelocity);
+            characterController.SetCharacterVelocity(currentVelocity);
         }
 
         private void CalculateGravity()
         {
-            Controller.Gravity = -(2 * (maxJumpHeight/Reducer)) / Mathf.Pow(timeToJumpApex, 2);
+            MoveController.Gravity = -(2 * (maxJumpHeight/Reducer)) / Mathf.Pow(timeToJumpApex, 2);
 
-            _maxJumpVelocity = Mathf.Abs(Controller.Gravity) * timeToJumpApex;
-            _minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(Controller.Gravity) * minJumpHeight/Reducer);
+            _maxJumpVelocity = Mathf.Abs(MoveController.Gravity) * timeToJumpApex;
+            _minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(MoveController.Gravity) * minJumpHeight/Reducer);
         }
     }
 }

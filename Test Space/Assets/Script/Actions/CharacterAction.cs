@@ -1,4 +1,5 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
+using PlayerDan;
 using UnityEngine;
 
 namespace Actions
@@ -8,6 +9,7 @@ namespace Actions
     {
         protected ICharacterController<PlayerData> Controller;
         protected ICharacter<PlayerData> Character;
+        protected IMovementController MoveController;
         
         public abstract void Execute(ICharacterController<PlayerData> characterController);
         public abstract void Cancel(ICharacterController<PlayerData> characterController);
@@ -17,6 +19,7 @@ namespace Actions
         {
             Controller = characterController;
             Character = characterController.Character;
+            MoveController = characterController.MoveController;
         }
     }
 }

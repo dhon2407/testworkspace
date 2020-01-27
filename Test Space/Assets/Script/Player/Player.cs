@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Actions;
-using Movement.Core;
-using PlayerDan;
+﻿using System.Collections.Generic;
+using DM2DMovement.Core;
+using Script;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
-namespace Script
+namespace PlayerDan
 {
     public class Player : MonoBehaviour, ICharacter<PlayerData>
     {
@@ -17,21 +12,7 @@ namespace Script
         
         [Space, Header("Player Stats")]
         [SerializeField] private int moveSpeed = 10;
-        [SerializeField] private float groundAcceleration = 0.2f;
-        [SerializeField] private float groundDeceleration = 0.1f;
-        [SerializeField] private float airAcceleration = 0.3f;
-        [SerializeField] private float airDeceleration = 0.3f;
 
-        [Space]
-        [SerializeField] private float maxFreshness = 100;
-        [SerializeField] private float maxTemp = 100;
-        [SerializeField] private float maxBacteria = 100;
-        
-        [Space]
-        [SerializeField] private float currentFreshness = 100;
-        [SerializeField] private float currentTemp;
-        [SerializeField] private float currentBacteria = 0;
-        
         [Space]
         [SerializeField] private int bacteriaGainSpeed = 10;
         [SerializeField] private float freshnessDrain = 10;
@@ -41,48 +22,11 @@ namespace Script
         [Space]
         [SerializeField] private List<AvailableAction<PlayerData>> availableActions = new List<AvailableAction<PlayerData>>();
 
-        public string Name => playerName;
-        public Vector2 Position => MoveController.Position;
-        public float GroundAcceleration => groundAcceleration;
-        public float GroundDeceleration => groundDeceleration;
-        public float AirAcceleration => airAcceleration;
-        public float AirDeceleration => airDeceleration;
-        public float MaxTemp => maxTemp;
-        public float CurrentTemp => currentTemp;
-        public float MaxBacteria => maxBacteria;
-        public float CurrentBacteria => currentBacteria;
-        public float MaxFreshness => maxFreshness;
-        public float CurrentFreshness => currentFreshness;
-
-        public void IncreaseTemp(float value)
-        {
-            currentTemp = Mathf.Clamp(currentTemp + Mathf.Abs(value), 0, maxTemp);
-            OnTempChange.Invoke(currentTemp);
-        }
-
-        public void DecreaseTemp(float value)
-        {
-            currentTemp = Mathf.Clamp(currentTemp - Mathf.Abs(value), 0, maxTemp);
-            OnTempChange.Invoke(currentTemp);
-        }
-
-        public void IncreaseBacteria(float value)
-        {
-            currentBacteria = Mathf.Clamp(currentBacteria + Mathf.Abs(value), 0, maxBacteria);
-            OnBacteriaChange.Invoke(currentBacteria);
-        }
-
-        public void DecreaseBacteria(float value)
-        {
-            currentBacteria = Mathf.Clamp(currentBacteria - Mathf.Abs(value), 0, maxBacteria);
-            OnBacteriaChange.Invoke(currentBacteria);
-        }
-
         public UnityEvent<float> OnTempChange { get; } = new StateChangeEvent();
         public UnityEvent<float> OnBacteriaChange { get; } = new StateChangeEvent();
         public UnityEvent<float> OnFreshnessChange { get; } = new StateChangeEvent();
-        public bool CanJump => CurrentBacteria / maxBacteria > 0.35f;
-        public bool CanRun => CurrentBacteria / maxBacteria > 0.72f;
+        public bool CanJump => Stats.CurrentBacteria / Stats.MaxBacteria > 0.35f;
+        public bool CanRun => Stats.CurrentBacteria / Stats.MaxBacteria > 0.72f;
 
         public int Movespeed
         {
@@ -92,7 +36,7 @@ namespace Script
 
         private void Update()
         {
-            var tempRatio = currentTemp / maxTemp;
+            var tempRatio = Stats.TempRatio;
             
             TemperatureRegen(tempRatio);
             UpdateBacteria(tempRatio);
@@ -101,39 +45,46 @@ namespace Script
 
         private void UpdateFreshness(float tempRatio)
         {
-            if (tempRatio >= 1)
-                DecreaseFreshness(Time.deltaTime * freshnessDrain);
-            if (CurrentBacteria / maxBacteria >= 1)
-                DecreaseFreshness(Time.deltaTime * freshnessDrain);
+            if (tempRatio >= 1 || Stats.BacteriaRatio >= 1)
+            {
+                Stats.DecreaseFreshness(Time.deltaTime * freshnessDrain);
+                OnFreshnessChange.Invoke(Stats.CurrentFreshness);
+            }
         }
 
         private void UpdateBacteria(float tempRatio)
         {
             if (tempRatio < 0.45f)
-                IncreaseBacteria((1 - tempRatio) * Time.deltaTime * bacteriaGainSpeed);
+            {
+                Stats.IncreaseBacteria((1 - tempRatio) * Time.deltaTime * bacteriaGainSpeed);
+                OnBacteriaChange.Invoke(Stats.CurrentBacteria);
+            }
+
             if (tempRatio > 0.55f)
-                DecreaseBacteria(tempRatio * Time.deltaTime * bacteriaGainSpeed * 2.5f);
+            {
+                Stats.DecreaseBacteria(tempRatio * Time.deltaTime * bacteriaGainSpeed * 2.5f);
+                OnBacteriaChange.Invoke(Stats.CurrentBacteria);
+            }
         }
 
         private void TemperatureRegen(float tempRatio)
         {
             if (tempRatio > 0.5f)
-                DecreaseTemp(tempRegen * Time.deltaTime);
+            {
+                Stats.DecreaseTemp(tempRegen * Time.deltaTime);
+                OnTempChange.Invoke(Stats.CurrentTemp);
+            }
+
             if (tempRatio < 0.5f)
-                IncreaseTemp(tempRegen * Time.deltaTime);
+            {
+                Stats.IncreaseTemp(tempRegen * Time.deltaTime);
+                OnTempChange.Invoke(Stats.CurrentTemp);
+            }
         }
 
-        private void DecreaseFreshness(float value)
-        {
-            currentFreshness = Mathf.Clamp(currentFreshness - Mathf.Abs(value), 0, maxFreshness);
-            OnFreshnessChange.Invoke(currentFreshness);
-
-            if (currentFreshness <= 0)
-                SceneManager.LoadScene(0);
-        }
-
-        public IMovementController MoveController { get; }
-        public PlayerData Stats { get; }
+        public IMovementController MoveController { get; } //TODO where to link this?
+        
+        public PlayerData Stats { get; } //TODO where to link this?
 
         public List<AvailableAction<PlayerData>> Actions => availableActions;
     }

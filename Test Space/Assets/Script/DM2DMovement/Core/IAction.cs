@@ -1,6 +1,4 @@
-﻿using PlayerDan;
-
-namespace Actions
+﻿namespace DM2DMovement.Core
 {
     public interface IAction<T> where T : ICharStats
     {

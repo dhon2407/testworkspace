@@ -1,6 +1,6 @@
-﻿using PlayerDan;
+﻿using DM2DMovement.Core;
 
-namespace Script
+namespace Environment.Effectors
 {
     public interface IEffector<T> where T : ICharStats
     {

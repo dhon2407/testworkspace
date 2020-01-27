@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace Movement.Collisions
+﻿
+namespace DM2DMovement.Collisions
 {
     public class CollisionData
     {
