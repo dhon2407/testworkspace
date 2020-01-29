@@ -26,6 +26,7 @@ namespace PlayerDan
 
         public IMovementController MoveController { get; private set; }
         public ICharacterController<PlayerData> Controller { get; private set; }
+        public Vector2 Facing { get; set; } = Vector2.right;
 
         public PlayerData Stats => stats;
 

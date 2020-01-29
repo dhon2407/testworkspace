@@ -9,9 +9,9 @@ namespace Movement.Modifiers
     [CreateAssetMenu(fileName = "Knock Back", menuName = "Move Modifiers/Knock Back")]
     public class KnockBack : ScriptableObject, IMovementModifier<PlayerData>
     {
-        [SerializeField] private Vector2 knockBackVelocity = new Vector2(0.2f,0.1f);
+        [SerializeField] private Vector2 knockBackVelocity = new Vector2(0.1f,0.1f);
         [SerializeField] private int knockBackForce = 1;
-        [SerializeField] private float duration =  1.5f;
+        [SerializeField] private float duration =  0.3f;
         
         private ICharacter<PlayerData> _character;
         private ICharacterController<PlayerData> _controller;
@@ -25,7 +25,7 @@ namespace Movement.Modifiers
             
             Timing.RunCoroutine(DisableInputs(duration));
 
-            var direction = Mathf.Sign(_controller.CharacterVelocity.x) * -1;
+            var direction = Mathf.Sign(_character.Facing.x) * -1;
             var finalKnockBackVelocity = KnockBackVelocity;
 
             finalKnockBackVelocity.x *= direction;

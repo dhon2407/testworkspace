@@ -74,9 +74,13 @@ namespace PlayerDan
                 var targetVelocityX =
                     (DisableInputs) ? 0 : Input.GetAxisRaw("Horizontal") * (Character.Movespeed / _reducer);
                 _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing, 0.1f);
+
+                if (Mathf.Abs(_inputVelocity.x) > 0)
+                    Character.Facing = (Mathf.Sign(_inputVelocity.x) > 0) ? Vector2.right : Vector2.left;
             }
             
-            _inputVelocity.y += -gravity * Time.deltaTime;
+            if (!DisableGravity)
+                _inputVelocity.y += -gravity * Time.deltaTime;
         }
 
         private void Awake()
