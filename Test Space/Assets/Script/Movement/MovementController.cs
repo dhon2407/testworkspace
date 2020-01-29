@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using DM2DMovement.Collisions;
 using DM2DMovement.Core;
 using UnityEngine;
@@ -12,130 +14,60 @@ namespace Movement.Core
         [SerializeField] private float airAcceleration = 0.3f;
         [SerializeField] private float airDeceleration = 0.3f;
         
-        private const CollisionDirection Left = CollisionDirection.Left;
-        private const CollisionDirection Right = CollisionDirection.Right;
-        private const CollisionDirection Up = CollisionDirection.Up;
-        private const CollisionDirection Down = CollisionDirection.Down;
-        private const float DefaultGravity = -0.50f;
-        
-        private ICollisionDetector _collisionDetector;
-
-        private List<IMovementModifier> _movementModifiers;
-        
-        private Vector2 _currentVelocity;
-        private Vector2 _targetVelocity;
-
-        private bool _gravityDisabled;
-
-        private bool OnOverHeadCollision => Collisions.Exists(data => data.Direction == CollisionDirection.Up);
+        public Vector2 Velocity => _velocity;
+        public Vector2 Position => transform.position;
+        public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
 
         public bool OnGround => Collisions.Exists(data => data.Direction == CollisionDirection.Down);
-        
-        private float _velocityXSmoothing;
 
         public void Move(Vector2 velocity)
         {
-            _targetVelocity += velocity;
-        }
-
-        private void Move()
-        {
+            _velocity = velocity;
             UpdateCollisions();
-
-            transform.Translate(_targetVelocity);
-
-            _currentVelocity = _targetVelocity;
-            
-            _targetVelocity.x = 0;
-        }
-
-        public Vector2 Velocity => _currentVelocity;
-        public Vector2 Position => transform.position;
-        
-        public float Gravity { get; set; } = DefaultGravity;
-        
-        public float GroundAcceleration => groundAcceleration;
-        public float GroundDeceleration => groundDeceleration;
-        public float AirAcceleration => airAcceleration;
-        public float AirDeceleration => airDeceleration;
-
-        public bool DisableGravity
-        {
-            get => _gravityDisabled;
-            set
-            {
-                if (!_gravityDisabled && value)
-                    _currentVelocity.y = 0;
-
-                _gravityDisabled = value;
-            }
         }
 
         private void FixedUpdate()
         {
-            ApplyGravity();
-            DampHorizontalVelocity();
-
-            Move();
-
-            if (OnGround || OnOverHeadCollision)
-                _targetVelocity.y = 0;
+            transform.Translate(_velocity);
         }
 
-        private void DampHorizontalVelocity()
-        {
-            var acceleration = GetHorizontalAcceleration();
-            _targetVelocity.x = Mathf.SmoothDamp(_currentVelocity.x, _targetVelocity.x, ref _velocityXSmoothing,
-                acceleration);
-        }
-
-        private float GetHorizontalAcceleration()
-        {
-            if (OnGround)
-                return Velocity.x < _targetVelocity.x ? GroundAcceleration : GroundDeceleration;
-            else
-                return Velocity.x < _targetVelocity.x ? AirAcceleration : AirDeceleration;
-        }
+        private const CollisionDirection Left = CollisionDirection.Left;
+        private const CollisionDirection Right = CollisionDirection.Right;
+        private const CollisionDirection Up = CollisionDirection.Up;
+        private const CollisionDirection Down = CollisionDirection.Down;
         
-        private void ApplyGravity()
-        {
-            if (DisableGravity) return;
-            
-            _targetVelocity.y += Gravity * Time.deltaTime;
-        }
-        
-        public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();
+        private ICollisionDetector _collisionDetector;
+        private List<IMovementModifier> _movementModifiers;
+        private Vector2 _velocity;
 
         private void UpdateCollisions()
         {
             foreach (var movementModifier in _movementModifiers)
-                _targetVelocity = movementModifier.Apply(_targetVelocity);
+                _velocity = movementModifier.Apply(_velocity);
             
-            if (_targetVelocity == Vector2.zero) return;
+            if (_velocity == Vector2.zero) return;
             
-            _targetVelocity = FilterCollisions(_targetVelocity);
+            FilterCollisions();
         }
 
-        private Vector2 FilterCollisions(Vector2 velocity)
+        private void FilterCollisions()
         {
-            Collisions =_collisionDetector.GetCollisions(velocity);
-
-            if (Mathf.Abs(velocity.x) > 0)
+            Collisions =_collisionDetector.GetCollisions(_velocity);
+            
+            if (Mathf.Abs(_velocity.x) > 0)
             {
-                var direction = Mathf.Sign(velocity.x) > 0 ? Right : Left;
+                var direction = Mathf.Sign(_velocity.x) > 0 ? Right : Left;
 
                 if (Collisions.Exists(data => data.Direction == direction))
-                    velocity.x = Mathf.Sign(velocity.x) * Collisions.Find(data => data.Direction == direction).Distance;
+                    _velocity.x = Mathf.Sign(_velocity.x) * Collisions.Find(data => data.Direction == direction).Distance;
             }
 
-            if (Mathf.Abs(velocity.y) > 0)
+            if (Mathf.Abs(_velocity.y) > 0)
             {
-                var direction = Mathf.Sign(velocity.y) > 0 ? Up : Down;
+                var direction = Mathf.Sign(_velocity.y) > 0 ? Up : Down;
                 if (Collisions.Exists(data => data.Direction == direction))
-                    velocity.y = Mathf.Sign(velocity.y) * Collisions.Find(data => data.Direction == direction).Distance;
+                    _velocity.y = Mathf.Sign(_velocity.y) * Collisions.Find(data => data.Direction == direction).Distance;
             }
-
-            return velocity;
         }
 
         private void Awake()

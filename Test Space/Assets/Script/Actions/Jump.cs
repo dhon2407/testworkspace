@@ -23,7 +23,7 @@ namespace Actions
 
             if (!Character.Stats.CanJump || !MoveController.OnGround) return;
             
-            CalculateGravity();
+            UpdateGravity(characterController);
             UpdateYVelocity(characterController, _maxJumpVelocity);
         }
 
@@ -43,12 +43,12 @@ namespace Actions
             characterController.SetCharacterVelocity(currentVelocity);
         }
 
-        private void CalculateGravity()
+        private void UpdateGravity(ICharacterController<PlayerData> characterController)
         {
-            MoveController.Gravity = -(2 * (maxJumpHeight/Reducer)) / Mathf.Pow(timeToJumpApex, 2);
+            characterController.Gravity = (2 * (maxJumpHeight/Reducer)) / Mathf.Pow(timeToJumpApex, 2);
 
-            _maxJumpVelocity = Mathf.Abs(MoveController.Gravity) * timeToJumpApex;
-            _minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(MoveController.Gravity) * minJumpHeight/Reducer);
+            _maxJumpVelocity = Mathf.Abs(characterController.Gravity) * timeToJumpApex;
+            _minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(characterController.Gravity) * minJumpHeight/Reducer);
         }
     }
 }

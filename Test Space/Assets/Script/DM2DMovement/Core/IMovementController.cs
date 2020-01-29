@@ -10,15 +10,8 @@ namespace DM2DMovement.Core
         Vector2 Velocity { get; }
         Vector2 Position { get; }
         
-        float Gravity { get; set; }
-        bool DisableGravity { get; set; }
         bool OnGround { get; }
-        
-        float GroundAcceleration { get; }
-        float GroundDeceleration { get; }
-        float AirAcceleration { get; }
-        float AirDeceleration { get; }
-        
+
         List<CollisionData> Collisions { get; }
     }
 }

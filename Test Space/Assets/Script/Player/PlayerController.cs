@@ -4,21 +4,19 @@ using DM2DMovement.Collisions;
 using DM2DMovement.Core;
 using UnityEngine;
 
-
-
 namespace PlayerDan
 {
     using CharacterController = ICharacterController<PlayerData>;
     
     public class PlayerController : MonoBehaviour, CharacterController
     {
-        private Vector2 _velocity;
-
-        private bool _inputDisabled;
-
-        private Vector2 _inputVelocity;
+        [SerializeField] private float gravity;
         
+        private Vector2 _velocity;
+        private bool _inputDisabled;
+        private Vector2 _inputVelocity;
         private readonly float _reducer = 100f;
+        private float _velocityXSmoothing;
 
         public ICharacter<PlayerData> Character { get; private set; }
         public IMovementController MoveController { get; private set; }
@@ -36,12 +34,18 @@ namespace PlayerDan
         }
 
         public Vector2 Position => MoveController.Position;
+        public float Gravity
+        {
+            get => gravity;
+            set => gravity = value;
+        }
+
         public bool DisableGravity { get; set; }
 
         public List<AvailableAction<PlayerData>> Actions => Character.Actions;
         public List<CollisionData> Collisions => MoveController.Collisions;
 
-        public Vector2 CharacterVelocity => MoveController.Velocity;
+        public Vector2 CharacterVelocity => _inputVelocity;
 
         public void SetCharacterVelocity(Vector2 velocity)
         {
@@ -54,23 +58,25 @@ namespace PlayerDan
             {
                 foreach (var availableAction in Actions)
                     availableAction.CheckInputs(this);
-                
-                UpdateInputVelocity();
             }
+            
+            CalculateVelocity();
+            MoveController.Move(_inputVelocity);
 
-            if (_inputVelocity != Vector2.zero)
-                MoveController.Move(_inputVelocity);
+            if (MoveController.OnGround || Collisions.Exists(col => col.Direction == CollisionDirection.Up))
+                _inputVelocity.y = 0;
         }
 
-        private void LateUpdate()
-        {
-            _inputVelocity = Vector2.zero;
-        }
-
-        private void UpdateInputVelocity()
+        private void CalculateVelocity()
         {
             if (!DisableInputs)
-                _inputVelocity.x = Input.GetAxisRaw("Horizontal") * (Character.Movespeed / _reducer);
+            {
+                var targetVelocityX =
+                    (DisableInputs) ? 0 : Input.GetAxisRaw("Horizontal") * (Character.Movespeed / _reducer);
+                _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing, 0.1f);
+            }
+            
+            _inputVelocity.y += -gravity * Time.deltaTime;
         }
 
         private void Awake()

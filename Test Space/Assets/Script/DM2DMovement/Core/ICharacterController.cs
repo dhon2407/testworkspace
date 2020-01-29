@@ -14,7 +14,10 @@ namespace DM2DMovement.Core
         Vector2 CharacterVelocity { get; }
 
         Vector2 Position { get; }
+        
+        float Gravity { get; set; }
         bool DisableGravity { get; set; }
+        
         bool DisableInputs { get; set; }
 
         List<AvailableAction<T>> Actions { get; }
