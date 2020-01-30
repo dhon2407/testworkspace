@@ -41,6 +41,7 @@ namespace PlayerDan
         }
 
         public bool DisableGravity { get; set; }
+        public bool DisableMovement { get; set; } = false;
 
         public List<AvailableAction<PlayerData>> Actions => Character.Actions;
         public List<CollisionData> Collisions => MoveController.Collisions;
@@ -49,7 +50,8 @@ namespace PlayerDan
 
         public void SetCharacterVelocity(Vector2 velocity)
         {
-            _inputVelocity = velocity;
+            if (!DisableMovement)
+                _inputVelocity = velocity;
         }
 
         private void Update()

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7e3e8a84add49c0a797bb329ed9d1ea, type: 3}
-  m_Name: Jump Action
+  m_Name: Jump
   m_EditorClassIdentifier: 
   maxJumpHeight: 5
   minJumpHeight: 0.5

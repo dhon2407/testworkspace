@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9df5f78b5354dc5939f509ade0fb608, type: 3}
-  m_Name: Run Action
+  m_Name: Run
   m_EditorClassIdentifier: 
   speedPercentIncrease: 150

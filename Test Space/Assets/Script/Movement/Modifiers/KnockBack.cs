@@ -22,15 +22,16 @@ namespace Movement.Modifiers
         {
             _character = character;
             _controller = _character.Controller;
+            _controller.DisableGravity = false;
             
             Timing.RunCoroutine(DisableInputs(duration));
-
+            
             var direction = Mathf.Sign(_character.Facing.x) * -1;
             var finalKnockBackVelocity = KnockBackVelocity;
-
             finalKnockBackVelocity.x *= direction;
             
             _controller.SetCharacterVelocity(finalKnockBackVelocity * knockBackForce);
+            _controller.DisableMovement = true;
         }
 
         private IEnumerator<float> DisableInputs(float time)
@@ -38,6 +39,7 @@ namespace Movement.Modifiers
             _controller.DisableInputs = true;
             yield return Timing.WaitForSeconds(time);
             _controller.DisableInputs = false;
+            _controller.DisableMovement = false;
         }
     }
 }

@@ -17,8 +17,8 @@ namespace DM2DMovement.Core
         
         float Gravity { get; set; }
         bool DisableGravity { get; set; }
-        
         bool DisableInputs { get; set; }
+        bool DisableMovement { get; set; }
 
         List<AvailableAction<T>> Actions { get; }
         List<CollisionData> Collisions { get; }

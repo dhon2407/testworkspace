@@ -2888,6 +2888,10 @@ MonoBehaviour:
   availableActions:
   - _code: 32
     _action: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
+  - _code: 114
+    _action: {fileID: 11400000, guid: acb7da5fd938d044c9aecaaae29443d8, type: 2}
+  - _code: 101
+    _action: {fileID: 11400000, guid: bfe5f6d2de6ac984d8072b20dc5ba077, type: 2}
 --- !u!1 &1149351942
 GameObject:
   m_ObjectHideFlags: 0
