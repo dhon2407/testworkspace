@@ -90,7 +90,6 @@ namespace PlayerDan
         {
             Controller = GetComponentInParent<ICharacterController<PlayerData>>();
             MoveController = GetComponentInChildren<IMovementController>();
-            
         }
     }
 }

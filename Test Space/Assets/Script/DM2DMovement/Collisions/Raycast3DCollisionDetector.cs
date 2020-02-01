@@ -10,26 +10,7 @@ namespace DM2DMovement.Collisions
     {
         [SerializeField] private float raySpacing = 0.05f;
         [SerializeField] private LayerMask collisionMask = 0;
-        
-        private readonly Vector2 Left = Vector2.left;
-        private readonly Vector2 Right = Vector2.right;
-        private readonly Vector2 Up = Vector2.up;
-        private readonly Vector2 Down = Vector2.down;
-        
-        private const float SkinWidth = 0.015f;
-        private BoxCollider2D _collider;
-        private BoxInfo _rayOrigins;
 
-        private int _verticalRayCount;
-        private int _horizontalRayCount;
-
-        private float _horizontalRaySpacing;
-        private float _verticalRaySpacing;
-
-        private List<CollisionData> _data;
-        
-        private Bounds InnerBounds => _collider.bounds.SelfExpand(SkinWidth * -2);
-        
         public List<CollisionData> GetCollisions(Vector2 velocity)
         {
             UpdateRaycastOrigins();
@@ -124,6 +105,25 @@ namespace DM2DMovement.Collisions
                     Color.red);
             }
         }
+        
+        private readonly Vector2 Left = Vector2.left;
+        private readonly Vector2 Right = Vector2.right;
+        private readonly Vector2 Up = Vector2.up;
+        private readonly Vector2 Down = Vector2.down;
+        
+        private const float SkinWidth = 0.015f;
+        private BoxCollider2D _collider;
+        private BoxInfo _rayOrigins;
+
+        private int _verticalRayCount;
+        private int _horizontalRayCount;
+
+        private float _horizontalRaySpacing;
+        private float _verticalRaySpacing;
+
+        private List<CollisionData> _data;
+        
+        private Bounds InnerBounds => _collider.bounds.SelfExpand(SkinWidth * -2);
 
         private void Start()
         {

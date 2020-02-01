@@ -7,22 +7,24 @@ namespace Actions
     [CreateAssetMenu(fileName = "Jump", menuName = "Actions/Jump")]
     public class Jump : CharacterAction
     {
-        [Header("Jump Parameters")]
+        [SerializeField] private float coolDown = 0f;
+        [Space, Header("Jump Parameters")]
         [SerializeField] private float maxJumpHeight = 4;
         [SerializeField] private float minJumpHeight = 1;
         [SerializeField] private float timeToJumpApex = .4f;
         
-        private float _maxJumpVelocity;
-        private float _minJumpVelocity;
-
-        private const float Reducer = 100f;
+        public override float Cooldown => coolDown;
+        public override bool Ready => RemainingCooldown <= 0;
 
         public override void Execute(ICharacterController<PlayerData> characterController)
         {
+            if (!Ready) return;
+            
             InitializeCharacter(characterController);
 
             if (!Character.Stats.CanJump || !MoveController.OnGround) return;
             
+            StartCooldown();
             UpdateGravity(characterController);
             UpdateYVelocity(characterController, _maxJumpVelocity);
         }
@@ -33,8 +35,11 @@ namespace Actions
                 UpdateYVelocity(characterController,  minJumpHeight / Reducer);
         }
 
-        public override void Hold(ICharacterController<PlayerData> characterController)
-        { }
+        public override void Hold(ICharacterController<PlayerData> characterController) { }
+        
+        private const float Reducer = 100f;
+        private float _maxJumpVelocity;
+        private float _minJumpVelocity;
 
         private void UpdateYVelocity(ICharacterController<PlayerData> characterController, float yValue)
         {

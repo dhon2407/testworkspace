@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DM2DMovement.Collisions;
 using DM2DMovement.Core;
 using UnityEngine;
@@ -9,15 +7,6 @@ namespace Movement.Core
 {
     public class MovementController : MonoBehaviour, IMovementController
     {
-        [Range(0,0.5f)]
-        [SerializeField] private float groundAcceleration = 0.2f;
-        [Range(0,0.5f)]
-        [SerializeField] private float groundDeceleration = 0.1f;
-        [Range(0,0.5f)]
-        [SerializeField] private float airAcceleration = 0.3f;
-        [Range(0,0.5f)]
-        [SerializeField] private float airDeceleration = 0.3f;
-        
         public Vector2 Velocity => _velocity;
         public Vector2 Position => transform.position;
         public List<CollisionData> Collisions { get; private set; } = new List<CollisionData>();

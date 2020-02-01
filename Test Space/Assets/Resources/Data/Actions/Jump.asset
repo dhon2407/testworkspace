@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e3e8a84add49c0a797bb329ed9d1ea, type: 3}
   m_Name: Jump
   m_EditorClassIdentifier: 
+  coolDown: 0
   maxJumpHeight: 5
   minJumpHeight: 0.5
   timeToJumpApex: 0.4

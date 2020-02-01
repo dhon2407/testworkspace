@@ -21,9 +21,10 @@ public class StatsUI : MonoBehaviour
 
     private void Start()
     {
-        player.OnTempChange.AddListener(TemperatureChange);
-        player.OnBacteriaChange.AddListener(BacteriaChange);
-        player.OnFreshnessChange.AddListener(FreshnessChange);
+        //TODO Null exception
+//        player.OnTempChange.AddListener(TemperatureChange);
+//        player.OnBacteriaChange.AddListener(BacteriaChange);
+//        player.OnFreshnessChange.AddListener(FreshnessChange);
 
         UpdateIndicators();
     }

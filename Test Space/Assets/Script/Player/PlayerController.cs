@@ -12,11 +12,19 @@ namespace PlayerDan
     {
         [SerializeField] private float gravity;
         
+        [Header("Move Acceleration")]
+        [Range(0,1f), SerializeField]
+        private float groundAcceleration = 0.2f;
+        [Range(0,1f), SerializeField]
+        private float airAcceleration = 0.3f;
+
+        
         private Vector2 _velocity;
         private bool _inputDisabled;
         private Vector2 _inputVelocity;
         private readonly float _reducer = 100f;
         private float _velocityXSmoothing;
+        private readonly float _defaultAcceleration = 0.1f;
 
         public ICharacter<PlayerData> Character { get; private set; }
         public IMovementController MoveController { get; private set; }
@@ -75,7 +83,7 @@ namespace PlayerDan
             {
                 var targetVelocityX =
                     (DisableInputs) ? 0 : Input.GetAxisRaw("Horizontal") * (Character.Movespeed / _reducer);
-                _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing, 0.1f);
+                _inputVelocity.x = Mathf.SmoothDamp(_inputVelocity.x, targetVelocityX, ref _velocityXSmoothing, CurrentAcceleration);
 
                 if (Mathf.Abs(_inputVelocity.x) > 0)
                     Character.Facing = (Mathf.Sign(_inputVelocity.x) > 0) ? Vector2.right : Vector2.left;
@@ -85,9 +93,20 @@ namespace PlayerDan
                 _inputVelocity.y += -gravity * Time.deltaTime;
         }
 
+        private float CurrentAcceleration => GetAcceleration();
+
+        private float GetAcceleration()
+        {
+            if (DisableInputs || DisableGravity || DisableMovement)
+                return _defaultAcceleration;
+            
+            return MoveController.OnGround ? groundAcceleration : airAcceleration;
+        }
+
+
         private void Awake()
         {
-            Character = GetComponent<ICharacter<PlayerData>>();
+            Character =  GetComponentInChildren<ICharacter<PlayerData>>();
         }
 
         private void Start()

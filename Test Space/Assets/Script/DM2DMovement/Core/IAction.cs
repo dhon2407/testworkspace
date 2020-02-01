@@ -5,5 +5,7 @@
         void Execute(ICharacterController<T> characterController);
         void Cancel(ICharacterController<T> characterController);
         void Hold(ICharacterController<T> characterController);
+        
+        float Cooldown { get; }
     }
 }

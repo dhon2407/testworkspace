@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf27d7dc7c14ffaba7f4ae9adffa4f9, type: 3}
   m_Name: Simple Dash
   m_EditorClassIdentifier: 
+  coolDown: 5
   speed: 0.8
   duration: 0.1
-  gravityDelay: 0.2
+  controlDelay: 0.1

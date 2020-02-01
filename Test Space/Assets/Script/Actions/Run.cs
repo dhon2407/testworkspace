@@ -7,11 +7,13 @@ namespace Actions
     [CreateAssetMenu(fileName = "Run", menuName = "Actions/Run")]
     public class Run : CharacterAction
     {
+        [SerializeField] private float coolDown = 0f;
+        [Space]
         [SerializeField] private int speedPercentIncrease = 150;
-
-        private bool _running;
-        private int _speedBoost;
         
+        public override float Cooldown => coolDown;
+        public override bool Ready => RemainingCooldown <= 0;
+
         public override void Execute(ICharacterController<PlayerData> characterController)
         {
             InitializeCharacter(characterController);
@@ -39,6 +41,9 @@ namespace Actions
             if (Character.Stats.CanRun && !_running)
                 Execute(characterController);
         }
+        
+        private bool _running;
+        private int _speedBoost;
         
         private void ExecuteRun(bool value)
         {

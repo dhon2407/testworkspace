@@ -82,10 +82,6 @@
             </e>
           </e>
           <e p="Movement" t="Include">
-            <e p="Gravity" t="Include">
-              <e p="BasicGravity.cs" t="Include" />
-              <e p="IGravity.cs" t="Include" />
-            </e>
             <e p="Modifiers" t="Include">
               <e p="IMovementModifier.cs" t="Include" />
               <e p="KnockBack.cs" t="Include" />

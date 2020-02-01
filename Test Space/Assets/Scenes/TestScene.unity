@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566cb2dd31747fd488dd1d43e92395b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1109324995}
+  player: {fileID: 0}
   temperatureSlider: {fileID: 1091786241}
   bacteriaGauge: {fileID: 1954196555}
   freshnessGauge: {fileID: 2127041525}
@@ -2106,6 +2106,7 @@ GameObject:
   - component: {fileID: 743714726}
   - component: {fileID: 743714725}
   - component: {fileID: 743714724}
+  - component: {fileID: 743714723}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -2129,6 +2130,39 @@ Transform:
   m_Father: {fileID: 1109324994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &743714723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743714721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce1e5b24b5241d28f57582543e0e589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  stats:
+    Name: 
+    MaxTemp: 100
+    CurrentTemp: 50
+    MaxBacteria: 100
+    CurrentBacteria: 0
+    MaxFreshness: 100
+    CurrentFreshness: 100
+    BacteriaGainSpeed: 1
+    FreshnessDrain: 1
+    TempRegen: 1
+    CanJump: 1
+    CanRun: 1
+  availableActions:
+  - code: 32
+    action: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
+  - code: 304
+    action: {fileID: 11400000, guid: acb7da5fd938d044c9aecaaae29443d8, type: 2}
+  - code: 101
+    action: {fileID: 11400000, guid: bfe5f6d2de6ac984d8072b20dc5ba077, type: 2}
 --- !u!114 &743714724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2141,10 +2175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94679d1b5604085b6c236d5b87f428a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundAcceleration: 0
-  groundDeceleration: 0
-  airAcceleration: 0
-  airDeceleration: 0
 --- !u!114 &743714725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2823,7 +2853,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1109324994}
   - component: {fileID: 1109324993}
-  - component: {fileID: 1109324995}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -2844,6 +2873,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.5
+  groundAcceleration: 0.1
+  airAcceleration: 0.2
 --- !u!4 &1109324994
 Transform:
   m_ObjectHideFlags: 0
@@ -2852,46 +2883,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109324992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.6, y: 0, z: 0.03605149}
+  m_LocalPosition: {x: -0.57, y: 0, z: 0.03605149}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 743714722}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1109324995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109324992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ce1e5b24b5241d28f57582543e0e589, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  stats:
-    Name: 
-    MaxTemp: 100
-    CurrentTemp: 50
-    MaxBacteria: 100
-    CurrentBacteria: 0
-    MaxFreshness: 100
-    CurrentFreshness: 100
-    BacteriaGainSpeed: 1
-    FreshnessDrain: 1
-    TempRegen: 1
-    CanJump: 1
-    CanRun: 1
-  availableActions:
-  - _code: 32
-    _action: {fileID: 11400000, guid: 507de37832c216149a0cef20efbbada0, type: 2}
-  - _code: 114
-    _action: {fileID: 11400000, guid: acb7da5fd938d044c9aecaaae29443d8, type: 2}
-  - _code: 101
-    _action: {fileID: 11400000, guid: bfe5f6d2de6ac984d8072b20dc5ba077, type: 2}
 --- !u!1 &1149351942
 GameObject:
   m_ObjectHideFlags: 0

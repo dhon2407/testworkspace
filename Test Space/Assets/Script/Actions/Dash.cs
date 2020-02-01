@@ -12,18 +12,34 @@ namespace Actions
     [CreateAssetMenu(fileName = "Dash Simple", menuName = "Actions/Simple Dash")]
     public class Dash : CharacterAction
     {
+        [SerializeField] private float coolDown = 0f;
+        [Space]
         [SerializeField] private float speed = 0.5f;
         [SerializeField] private float duration = 3;
         [SerializeField] private float controlDelay = 0.2f;
-        
-        
+
+        public override float Cooldown => coolDown;
+        public override bool Ready => RemainingCooldown <= 0;
+
         public override void Execute(ICharacterController<PlayerData> characterController)
         {
+            if (!Ready) return;
+            
+            StartCooldown();
             InitializeCharacter(characterController);
-
             Timing.RunCoroutine(ExecuteDash());
         }
 
+        public override void Cancel(ICharacterController<PlayerData> characterController) { }
+
+        public override void Hold(ICharacterController<PlayerData> characterController) { }
+        
+        private void StartDash()
+        {
+            Controller.DisableGravity = true;
+            Controller.DisableInputs = true;
+        }
+        
         private IEnumerator<float> ExecuteDash()
         {
             StartDash();
@@ -49,17 +65,5 @@ namespace Actions
         private bool NoCollision => MoveController.Collisions.All(collisionData =>
             collisionData.Direction != CollisionDirection.Left &&
             collisionData.Direction != CollisionDirection.Right);
-
-        public override void Cancel(ICharacterController<PlayerData> characterController)
-        { }
-
-        public override void Hold(ICharacterController<PlayerData> characterController)
-        { }
-        
-        private void StartDash()
-        {
-            Controller.DisableGravity = true;
-            Controller.DisableInputs = true;
-        }
     }
 }
